@@ -149,7 +149,7 @@
                                             <segue destination="KNb-to-ONe" kind="presentation" modalPresentationStyle="fullScreen" id="b4p-qd-aDp"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="2Fe-KD-8gj">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="2Fe-KD-8gj" customClass="PriceCell" customModule="GDONG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="308" width="414" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Fe-KD-8gj" id="53W-i7-JPh">
@@ -174,9 +174,16 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" image="checkmark.circle" catalog="system"/>
+                                                    <connections>
+                                                        <action selector="checkForPriceSuggestion:" destination="2Fe-KD-8gj" eventType="touchUpInside" id="OUI-eF-dyt"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkButton" destination="boL-2H-jpx" id="gT3-OX-zcz"/>
+                                            <outlet property="priceTextField" destination="HSW-7B-BT9" id="pHR-kT-xTg"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="293" id="65X-AP-POn" customClass="TextViewCell" customModule="GDONG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="378" width="414" height="293"/>
