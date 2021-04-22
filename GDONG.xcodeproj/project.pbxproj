@@ -17,6 +17,9 @@
 		8E42FF00261D958800763B61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E42FEFE261D958800763B61 /* LaunchScreen.storyboard */; };
 		8E42FF0A261D9B4600763B61 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42FF09261D9B4600763B61 /* LoginViewController.swift */; };
 		8E6C081626240E97009CE9C3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6C081526240E96009CE9C3 /* Extension.swift */; };
+		DD5F65FB26312A5300301296 /* CreateNewItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD5F65FA26312A5300301296 /* CreateNewItem.storyboard */; };
+		DD5F65FF26312A7A00301296 /* CreateNewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F65FE26312A7A00301296 /* CreateNewItemViewController.swift */; };
+		DD636C322631C8A9002FDA97 /* ViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD636C312631C8A9002FDA97 /* ViewCells.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +36,9 @@
 		8E42FF462620B4BD00763B61 /* GDONG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GDONG.entitlements; sourceTree = "<group>"; };
 		8E6C081526240E96009CE9C3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		B5CB9861EE62390BC891B506 /* Pods_GDONG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GDONG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD5F65FA26312A5300301296 /* CreateNewItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateNewItem.storyboard; sourceTree = "<group>"; };
+		DD5F65FE26312A7A00301296 /* CreateNewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewItemViewController.swift; sourceTree = "<group>"; };
+		DD636C312631C8A9002FDA97 /* ViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCells.swift; sourceTree = "<group>"; };
 		ED3C4B96BF1AF2716918D5A6 /* Pods-GDONG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDONG.release.xcconfig"; path = "Target Support Files/Pods-GDONG/Pods-GDONG.release.xcconfig"; sourceTree = "<group>"; };
 		EDB6198BF78650B9DC772EC0 /* Pods-GDONG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDONG.debug.xcconfig"; path = "Target Support Files/Pods-GDONG/Pods-GDONG.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +93,7 @@
 		8E42FEEF261D958100763B61 /* GDONG */ = {
 			isa = PBXGroup;
 			children = (
+				DD5F65F22631273700301296 /* CreateNewItem */,
 				8E42FF462620B4BD00763B61 /* GDONG.entitlements */,
 				8E42FF08261D9B2F00763B61 /* Login */,
 				8E42FEF0261D958100763B61 /* AppDelegate.swift */,
@@ -108,6 +115,16 @@
 				8E42FF09261D9B4600763B61 /* LoginViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		DD5F65F22631273700301296 /* CreateNewItem */ = {
+			isa = PBXGroup;
+			children = (
+				DD5F65FA26312A5300301296 /* CreateNewItem.storyboard */,
+				DD5F65FE26312A7A00301296 /* CreateNewItemViewController.swift */,
+				DD636C312631C8A9002FDA97 /* ViewCells.swift */,
+			);
+			path = CreateNewItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +187,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD5F65FB26312A5300301296 /* CreateNewItem.storyboard in Resources */,
 				8E42FF00261D958800763B61 /* LaunchScreen.storyboard in Resources */,
 				8E42FEFD261D958800763B61 /* Assets.xcassets in Resources */,
 				8E42FEF8261D958100763B61 /* Main.storyboard in Resources */,
@@ -242,8 +260,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD636C322631C8A9002FDA97 /* ViewCells.swift in Sources */,
 				8E42FEF5261D958100763B61 /* ViewController.swift in Sources */,
 				8E42FEFB261D958100763B61 /* GDONG.xcdatamodeld in Sources */,
+				DD5F65FF26312A7A00301296 /* CreateNewItemViewController.swift in Sources */,
 				8E42FEF1261D958100763B61 /* AppDelegate.swift in Sources */,
 				8E6C081626240E97009CE9C3 /* Extension.swift in Sources */,
 				8E42FF0A261D9B4600763B61 /* LoginViewController.swift in Sources */,
@@ -399,14 +419,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FJ57DUH592;
 				INFOPLIST_FILE = GDONG/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "Develop.com-GDONG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -420,6 +443,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FJ57DUH592;
 				INFOPLIST_FILE = GDONG/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -428,6 +452,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};

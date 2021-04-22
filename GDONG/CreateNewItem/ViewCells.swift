@@ -25,13 +25,17 @@ class PhotoCell: UITableViewCell {
 
 }
 
+//MARK: TextViewCell
 class TextViewCell: UITableViewCell {
   
   @IBOutlet weak var textView: UITextView!
+  // 임의 Valid 조건 : isEmpty 가 아니면 됨
+  var isValid: Bool?
   
   override func awakeFromNib() {
     super.awakeFromNib()
     self.setPlaceHolderText()
+    isValid = false
   }
   
   func setPlaceHolderText() {
@@ -50,8 +54,11 @@ extension TextViewCell: UITextViewDelegate {
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text.isEmpty {
+    guard !textView.text.isEmpty else {
       setPlaceHolderText()
+      return
     }
+    
+    isValid = true
   }
 }
