@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Category Table View Controller-->
         <scene sceneID="v5P-Qk-iNJ">
             <objects>
-                <tableViewController id="6ra-Wg-fXI" sceneMemberID="viewController">
+                <tableViewController id="6ra-Wg-fXI" customClass="CategoryTableViewController" customModule="GDONG" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Qcp-gC-BGf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -43,25 +43,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K0a-i9-Bar" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1823" y="100"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Ntu-WY-Qaa">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2B6-KK-C3p" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kUD-dL-TfP">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="6ra-Wg-fXI" kind="relationship" relationship="rootViewController" id="XZs-Kp-TWd"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hpy-m8-qg0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1025" y="100"/>
+            <point key="canvasLocation" x="1454" y="50"/>
         </scene>
     </scenes>
     <resources>

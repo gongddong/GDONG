@@ -13,9 +13,11 @@ class PhotoCell: UITableViewCell {
     
     
   }
+  
   override func awakeFromNib() {
-      super.awakeFromNib()
-    }
+    super.awakeFromNib()
+    self.selectionStyle = .none
+  }
 
   override func setSelected(_ selected: Bool, animated: Bool) {
       super.setSelected(selected, animated: animated)
@@ -29,9 +31,26 @@ class PhotoCell: UITableViewCell {
 class TitleCell: UITableViewCell {
   
   override func awakeFromNib() {
-      super.awakeFromNib()
+    super.awakeFromNib()
+    self.selectionStyle = .none
     }
 }
+
+class CategoryCell: UITableViewCell {
+  override func awakeFromNib() {
+    super.awakeFromNib()
+  }
+  
+  @IBAction func showCategoryViewController(_ sender: Any) {
+    print("test")
+  }
+  //  @objc func presentCategoryViewController() {
+//    let storyboard = UIStoryboard(name: "CategoryTableView", bundle: nil)
+//      guard let categoryTableViewController = storyboard.instantiateViewController(identifier: "CategoryTableViewController") as? CategoryTableViewController else { fatalError("\(#function)") }
+//    present(categoryTableViewController, animated: true, completion: nil)
+//  }
+}
+
 
 //MARK: PriceCell
 class PriceCell: UITableViewCell {
@@ -45,7 +64,7 @@ class PriceCell: UITableViewCell {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    
+    self.selectionStyle = .none
     //TODO: delegate 설정 가능한지 확인하기
     priceTextField.delegate = self
     
@@ -95,35 +114,20 @@ extension PriceCell: UITextFieldDelegate {
   }
 }
 
-//MARK: TextViewCell
-class TextViewCell: UITableViewCell {
+
+class EntityCell: UITableViewCell {
   
   @IBOutlet weak var textView: UITextView!
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    self.setPlaceHolderText()
+    self.selectionStyle = .none
+    EntityCell.setPlaceHolderText(with: textView)
   }
   
-  func setPlaceHolderText() {
-    textView.text = "이 곳에 글 내용을 입력해주세요"
+  // Delegate 에서도 사용하기 위하여 타입 메서드로 선언
+  static func setPlaceHolderText(with textView: UITextView) {
+    textView.text = "이 곳에 소개하는 글을 적어주세요."
     textView.textColor = .lightGray
-  }
-}
-
-extension TextViewCell: UITextViewDelegate {
-  
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.textColor == .lightGray {
-      textView.text = nil
-      textView.textColor = .black
-    }
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    guard !textView.text.isEmpty else {
-      setPlaceHolderText()
-      return
-    }
   }
 }

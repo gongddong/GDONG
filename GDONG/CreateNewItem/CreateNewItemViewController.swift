@@ -18,6 +18,11 @@ enum Cells: String, CaseIterable {
 class CreateNewItemViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var toolBar: UIToolbar!
+  
+  weak var entityCell: EntityCell?
+  
+  var categorySeugue: UIStoryboardSegue?
   
   //Cell Layout Order
   let cellList = Cells.allCases
@@ -25,8 +30,14 @@ class CreateNewItemViewController: UIViewController {
   //MARK: ViewDidLoad
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    tableView.dataSource = self
+    tableView.delegate = self
+//    tableView.allowsSelection = false
+    
     regitserCells()
   }
+  
   
   @IBAction func backToMainView(_ sender: Any) {
     dismiss(animated: true, completion: nil)
@@ -45,7 +56,7 @@ class CreateNewItemViewController: UIViewController {
     
     dismiss(animated: true, completion: nil)
   }
-
+  
   // 글 유효성 검사
   func validateWriting() -> Bool {
     
@@ -63,12 +74,22 @@ class CreateNewItemViewController: UIViewController {
   // Register cells from Nib
   func regitserCells() {
     
-    cellList.forEach { [weak self] in
+    cellList.forEach {
       let cellNib = UINib(nibName: $0.rawValue, bundle: nil)
       tableView.register(cellNib, forCellReuseIdentifier: $0.rawValue)
     }
   }
   
+  @objc func showCategoryViewController() {
+    
+    let storyboard = UIStoryboard(name: "CategoryTableView", bundle: nil)
+      guard let categoryTableViewController = storyboard.instantiateViewController(identifier: "CategoryTableViewController") as? CategoryTableViewController else { fatalError("\(#function)") }
+    present(categoryTableViewController, animated: true, completion: nil)
+  }
+  
+  deinit {
+    self.categorySeugue = nil
+  }
 }
 
 extension CreateNewItemViewController: UITableViewDataSource {
@@ -83,12 +104,55 @@ extension CreateNewItemViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellList[indexPath.row].rawValue, for: indexPath)
+    
+    if indexPath.row == cellList.count - 1, let cell = cell as? EntityCell {
+      cell.textView.delegate = self
+    }
+    
     return cell
   }
   
+
   
 }
 
 extension CreateNewItemViewController: UITableViewDelegate {
   
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    // EnticyCell 일때
+    if indexPath.row == cellList.count - 1 {
+      return 300
+    }
+
+    return UITableView.automaticDimension
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    guard let selectedCell = tableView.cellForRow(at: indexPath) else { fatalError("\(#function)") }
+    
+    if selectedCell.reuseIdentifier == Cells.CategoryCell.rawValue {
+      print("test")
+    }
+    
+    tableView.deselectRow(at: indexPath, animated: false)
+  }
+}
+
+extension CreateNewItemViewController: UITextViewDelegate {
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    print(#function)
+    if textView.textColor == .lightGray {
+      textView.text = nil
+      textView.textColor = .black
+    }
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    guard !textView.text.isEmpty else {
+      EntityCell.setPlaceHolderText(with: textView)
+      return
+    }
+  }
 }

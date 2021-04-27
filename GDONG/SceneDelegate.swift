@@ -10,16 +10,34 @@ import KakaoSDKAuth
 import GoogleSignIn
 import AuthenticationServices
 
+enum Tester {
+  case 우찬
+  case 소정
+  case 연서
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    var window: UIWindow?
-
+  var window: UIWindow?
+  
+  lazy var tester = Tester.우찬
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+      
+      switch tester {
+        case .우찬:
+            let storyboard = UIStoryboard.init(name: "CreateNewItem", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "CreateNewItemViewController") as! CreateNewItemViewController
+            window!.rootViewController = viewController
+            window!.makeKeyAndVisible()
+        default:
+          break
+      }
+
     }
 
     //scene의 연결이 해제될 때 호출

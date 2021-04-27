@@ -8,22 +8,27 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="356-Zq-tUa" customClass="TitleCell" customModule="GDONG" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="70" id="356-Zq-tUa" customClass="TitleCell" customModule="GDONG" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="356-Zq-tUa" id="Vn3-fS-I53">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="글 제목" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UsR-iw-ELl">
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="글 제목" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UsR-iw-ELl">
                         <rect key="frame" x="20" y="18" width="374" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="UsR-iw-ELl" secondAttribute="trailing" constant="20" symbolic="YES" id="2MM-ML-lpN"/>
+                    <constraint firstItem="UsR-iw-ELl" firstAttribute="top" secondItem="Vn3-fS-I53" secondAttribute="top" constant="18" id="Q6R-XU-fnI"/>
+                    <constraint firstItem="UsR-iw-ELl" firstAttribute="leading" secondItem="Vn3-fS-I53" secondAttribute="leading" constant="20" symbolic="YES" id="mAL-1L-94O"/>
+                    <constraint firstAttribute="bottom" secondItem="UsR-iw-ELl" secondAttribute="bottom" constant="18" id="wfX-ad-L7B"/>
+                </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-112" y="-15"/>
+            <point key="canvasLocation" x="-113.04347826086958" y="-15.401785714285714"/>
         </tableViewCell>
     </objects>
 </document>
