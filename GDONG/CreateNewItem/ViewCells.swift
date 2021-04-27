@@ -17,27 +17,40 @@ class PhotoCell: UITableViewCell {
       super.awakeFromNib()
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+  override func setSelected(_ selected: Bool, animated: Bool) {
+      super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
-    }
+      // Configure the view for the selected state
+  }
 
 }
+
+//MARK: PriceCell
+class TitleCell: UITableViewCell {
+  
+  override func awakeFromNib() {
+      super.awakeFromNib()
+    }
+}
+
 //MARK: PriceCell
 class PriceCell: UITableViewCell {
   
   @IBOutlet weak var priceTextField: UITextField!
   @IBOutlet weak var checkButton: UIButton!
-  var isValid: Bool?
+  
+  var isAllowedPriceSuggestion: Bool {
+    return checkButton.isSelected
+  }
   
   override func awakeFromNib() {
     super.awakeFromNib()
+    
     //TODO: delegate 설정 가능한지 확인하기
     priceTextField.delegate = self
+    
     checkButton.tintColor = .lightGray
     checkButton.isSelected = false
-    isValid = false
   }
   
   @IBAction func checkForPriceSuggestion(_ sender: Any) {
@@ -80,27 +93,16 @@ extension PriceCell: UITextFieldDelegate {
       }
       return true
   }
-  
-  func textFieldDidEndEditing(_ textField: UITextField) {
-//    guard !priceTextField?.text?.isEmpty else {
-//      isValid = false
-//      return
-//    }
-//    isValid = true
-  }
 }
 
 //MARK: TextViewCell
 class TextViewCell: UITableViewCell {
   
   @IBOutlet weak var textView: UITextView!
-  // 임의 Valid 조건 : isEmpty 가 아니면 됨
-  var isValid: Bool?
   
   override func awakeFromNib() {
     super.awakeFromNib()
     self.setPlaceHolderText()
-    isValid = false
   }
   
   func setPlaceHolderText() {
@@ -123,7 +125,5 @@ extension TextViewCell: UITextViewDelegate {
       setPlaceHolderText()
       return
     }
-    
-    isValid = true
   }
 }

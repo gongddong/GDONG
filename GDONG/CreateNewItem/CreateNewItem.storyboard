@@ -12,7 +12,7 @@
         <!--Create New Item View Controller-->
         <scene sceneID="CKa-TK-8dF">
             <objects>
-                <viewController id="nKM-UP-cP4" customClass="CreateNewItemViewController" customModule="GDONG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateNewItemViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nKM-UP-cP4" customClass="CreateNewItemViewController" customModule="GDONG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K87-m9-Ab3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="44" id="fkH-YM-dzn"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="공동구매 긇쓰기" id="Vwe-z9-7iv">
+                                    <navigationItem title="공동구매 글쓰기" id="Vwe-z9-7iv">
                                         <barButtonItem key="leftBarButtonItem" title="닫기" id="BdI-Jx-eYb">
                                             <connections>
                                                 <action selector="backToMainView:" destination="nKM-UP-cP4" id="ubW-aN-w7q"/>
@@ -145,9 +145,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="KNb-to-ONe" kind="presentation" modalPresentationStyle="fullScreen" id="b4p-qd-aDp"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="2Fe-KD-8gj" customClass="PriceCell" customModule="GDONG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="308" width="414" height="70"/>
@@ -192,15 +189,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="293"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ooj-Kn-KbX">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ooj-Kn-KbX">
                                                     <rect key="frame" x="20" y="11" width="374" height="282"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <color key="textColor" systemColor="labelColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ooj-Kn-KbX" firstAttribute="leading" secondItem="afc-yc-Gbc" secondAttribute="leading" constant="20" symbolic="YES" id="BTt-Zz-Jl5"/>
+                                                <constraint firstItem="ooj-Kn-KbX" firstAttribute="top" secondItem="afc-yc-Gbc" secondAttribute="top" constant="11" id="C0D-LX-Ckz"/>
+                                                <constraint firstAttribute="trailing" secondItem="ooj-Kn-KbX" secondAttribute="trailing" constant="20" symbolic="YES" id="HeC-Yx-ibx"/>
+                                                <constraint firstAttribute="bottom" secondItem="ooj-Kn-KbX" secondAttribute="bottom" id="NFb-7A-6RI"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="textView" destination="ooj-Kn-KbX" id="JzD-x8-A2d"/>
@@ -230,63 +232,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oXk-7L-zxo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="242.0289855072464" y="99.776785714285708"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="cJA-73-t9C">
-            <objects>
-                <tableViewController id="rGp-oH-IpQ" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="wGQ-E9-3gj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="w1U-aA-Ter">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w1U-aA-Ter" id="xE2-6R-TFA">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="디지털/가전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjC-3G-Mwc">
-                                            <rect key="frame" x="20" y="11" width="79" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="rGp-oH-IpQ" id="gCV-SH-Rl8"/>
-                            <outlet property="delegate" destination="rGp-oH-IpQ" id="qvF-sv-s8i"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="sz7-uI-iTB"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aiO-T3-YuJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2068" y="100"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="xEw-ZB-gVK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KNb-to-ONe" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="C45-g2-bTc">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="rGp-oH-IpQ" kind="relationship" relationship="rootViewController" id="KiN-Ci-mKN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Jo-bl-SL4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1145" y="100"/>
+            <point key="canvasLocation" x="46" y="86"/>
         </scene>
     </scenes>
     <resources>
