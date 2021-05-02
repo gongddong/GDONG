@@ -27,11 +27,8 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22" scale="default"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vml-5P-raN" userLabel="CameraButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vml-5P-raN" userLabel="ImagePickerButton">
                                 <rect key="frame" x="0.0" y="0.0" width="95" height="95"/>
-                                <connections>
-                                    <action selector="AddPhoto:" destination="YoY-MK-Kto" eventType="touchUpInside" id="y6r-Sw-I7T"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray3Color"/>
@@ -81,6 +78,9 @@
                     <constraint firstItem="fBW-Lv-E1o" firstAttribute="centerY" secondItem="0Ug-Bd-PIH" secondAttribute="centerY" id="nFm-fr-Sk8"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="imagePickerButton" destination="Vml-5P-raN" id="N6q-Zg-JMZ"/>
+            </connections>
             <point key="canvasLocation" x="118.84057971014494" y="-15.401785714285714"/>
         </tableViewCell>
     </objects>

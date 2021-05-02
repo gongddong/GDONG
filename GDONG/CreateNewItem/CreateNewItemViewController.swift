@@ -19,6 +19,9 @@ class CreateNewItemViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var toolBar: UIToolbar!
+  @IBOutlet weak var photoPickButton: UIButton!
+  
+  var imagePickerView: UIImagePickerController = UIImagePickerController()
   
   weak var entityCell: EntityCell?
   
@@ -68,7 +71,7 @@ class CreateNewItemViewController: UIViewController {
   func presentAlert() {
     
     //TODO: message need to be filled with cell's hasValid value
-    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
   }
   
   // Register cells from Nib
@@ -80,15 +83,44 @@ class CreateNewItemViewController: UIViewController {
     }
   }
   
-  @objc func showCategoryViewController() {
+  @objc func showImageSourceOption() {
     
-    let storyboard = UIStoryboard(name: "CategoryTableView", bundle: nil)
-      guard let categoryTableViewController = storyboard.instantiateViewController(identifier: "CategoryTableViewController") as? CategoryTableViewController else { fatalError("\(#function)") }
-    present(categoryTableViewController, animated: true, completion: nil)
+    let alertController = UIAlertController(title: "사진을 어디서 가져올까요?", message: nil, preferredStyle: .actionSheet)
+    
+    // weak self 를 한 이유 : 현재는 발생하지 않지만 인스턴스의 다른 스코프에서 imagePickerAction 의 참조를 얻을 때
+    // retain cycle 이 발생할 수 있다.
+    let imagePickerAction = UIAlertAction(title: "사진 앨범", style: .default) { [weak self] _ in
+      print("showImagePicker()")
+      self?.showImagePicker()
+    }
+    
+    alertController.addAction(imagePickerAction)
+    
+    let cameraAction = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
+      self?.showCamera()
+    }
+    
+    alertController.addAction(cameraAction)
+    
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+    alertController.addAction(cancelAction)
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  func showImagePicker() {
+    self.imagePickerView.sourceType = .photoLibrary
+    present(self.imagePickerView, animated: true, completion: nil)
+  }
+  
+  func showCamera() {
+    self.imagePickerView.sourceType = .camera
+    present(self.imagePickerView, animated: true, completion: nil)
   }
   
   deinit {
-    self.categorySeugue = nil
+    
   }
 }
 
@@ -103,17 +135,30 @@ extension CreateNewItemViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: cellList[indexPath.row].rawValue, for: indexPath)
     
-    if indexPath.row == cellList.count - 1, let cell = cell as? EntityCell {
-      cell.textView.delegate = self
+    let reuseIdentifier = cellList[indexPath.row].rawValue
+    
+    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+    
+    switch Cells(rawValue: reuseIdentifier) {
+      case .PhotoCell:
+        if let cell = cell as? PhotoCell {
+          cell.imagePickerButton.addTarget(self, action: #selector(showImageSourceOption), for: .touchUpInside)
+          return cell
+        }
+          
+      case .EntityCell:
+        if let cell = cell as? EntityCell {
+          cell.textView.delegate = self
+          return cell
+        }
+          
+      default:
+        break
     }
     
     return cell
   }
-  
-
-  
 }
 
 extension CreateNewItemViewController: UITableViewDelegate {

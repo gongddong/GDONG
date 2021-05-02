@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import KakaoSDKAuth
-import GoogleSignIn
-import AuthenticationServices
+//import KakaoSDKAuth
+//import GoogleSignIn
+//import AuthenticationServices
 
 enum Tester {
   case 우찬
@@ -73,20 +73,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     // 카카오톡 로그인 페이지
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        if let url = URLContexts.first?.url {
-            if (AuthApi.isKakaoTalkLoginUrl(url)){
-                _ = AuthController.handleOpenUrl(url: url)
-            }
-        }
-        
-        guard let scheme = URLContexts.first?.url.scheme else { return }
-        if scheme.contains("com.googleusercontent.apps") {
-            GIDSignIn.sharedInstance().handle(URLContexts.first?.url)
-        }
-        
-    
-    }
+//    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+//        if let url = URLContexts.first?.url {
+//            if (AuthApi.isKakaoTalkLoginUrl(url)){
+//                _ = AuthController.handleOpenUrl(url: url)
+//            }
+//        }
+//        
+//        guard let scheme = URLContexts.first?.url.scheme else { return }
+//        if scheme.contains("com.googleusercontent.apps") {
+//            GIDSignIn.sharedInstance().handle(URLContexts.first?.url)
+//        }
+//        
+//    
+//    }
 
 
 }

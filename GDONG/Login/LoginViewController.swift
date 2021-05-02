@@ -7,9 +7,9 @@
 
 import UIKit
 import AuthenticationServices
-import KakaoSDKAuth
-import KakaoSDKUser
-import KakaoOpenSDK
+//import KakaoSDKAuth
+//import KakaoSDKUser
+//import KakaoOpenSDK
 import GoogleSignIn
 
 class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding, GIDSignInDelegate {
@@ -84,18 +84,18 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-       
-        googleLoginButton.frame = CGRect(x: 70, y: 300, width: 250, height: 40)
-        kakaoTalkLoginButton.frame = CGRect(x: 70, y: googleLoginButton.bottom + 20, width: 250, height: 40)
-        
-        appleLoginButtonView.frame = CGRect(x: 70, y: kakaoTalkLoginButton.bottom + 20, width: 250, height: 40)
-        appleLoginButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
-        
-        appleLoginButtonView.addArrangedSubview(appleLoginButton)
-        view.addSubview(appleLoginButtonView)
-        view.addSubview(kakaoTalkLoginButton)
-        view.addSubview(googleLoginButton)
-        
+//
+//        googleLoginButton.frame = CGRect(x: 70, y: 300, width: 250, height: 40)
+//        kakaoTalkLoginButton.frame = CGRect(x: 70, y: googleLoginButton.bottom + 20, width: 250, height: 40)
+//
+//        appleLoginButtonView.frame = CGRect(x: 70, y: kakaoTalkLoginButton.bottom + 20, width: 250, height: 40)
+//        appleLoginButton.frame = CGRect(x: 0, y: 0, width: 250, height: 50)
+//
+//        appleLoginButtonView.addArrangedSubview(appleLoginButton)
+//        view.addSubview(appleLoginButtonView)
+//        view.addSubview(kakaoTalkLoginButton)
+//        view.addSubview(googleLoginButton)
+//
         
         
        
@@ -140,74 +140,74 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
     
     
     
-    private let kakaoTalkLoginButton:KOLoginButton = {
-        let button = KOLoginButton()
-        button.addTarget(self, action: #selector(onKakaoLoginByAppTouched), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let googleLoginButton: GIDSignInButton = {
-        let button = GIDSignInButton()
-        button.style = .standard
-//        button.addTarget(self, action: #selector(onGoogleLoginByAppTouched), for: .touchUpInside)
-        return button
-    }()
-    
-    @objc func onKakaoLoginByAppTouched(_ sender: Any) {
-        if(UserApi.isKakaoTalkLoginAvailable()){ // 이용가능하다면
-            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                    if let error = error {
-                        print(error)
-                    }
-                    else {
-                        print("loginWithKakaoAccount() success.")
-
-                        //do something
-                        let token = oauthToken
-                        guard let gettoken = token else {
-                            return
-                        }
-                        print("login token \(gettoken)")
-                        self.setUserInfo()
-                    }
-                }
-        }
-    }
-    
-    
-    
-    func setUserInfo(){
-        UserApi.shared.me(){(user, error) in
-            if let error = error {
-                print(error)
-            }else{
-                print("me() success")
-                _ = user
-                guard let userId = user?.id else { return }
-                guard let userName = user?.kakaoAccount?.profile?.nickname else { return }
-                guard let userEmail = user?.kakaoAccount?.email else { return }
-                
-                print("user info : \(userId) \(userName) \(userEmail)")
-                self.getToken()
-            }
-        }
-       
-    }
-    
-    func getToken(){
-        UserApi.shared.accessTokenInfo {(accessTokenInfo, error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("accessTokenInfo() success.")
-                guard let token = accessTokenInfo else { return }
-                print("login token \(token)")
-                
-            }
-        }
-    }
+//    private let kakaoTalkLoginButton:KOLoginButton = {
+//        let button = KOLoginButton()
+//        button.addTarget(self, action: #selector(onKakaoLoginByAppTouched), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+//
+//    private let googleLoginButton: GIDSignInButton = {
+//        let button = GIDSignInButton()
+//        button.style = .standard
+////        button.addTarget(self, action: #selector(onGoogleLoginByAppTouched), for: .touchUpInside)
+//        return button
+//    }()
+//
+//    @objc func onKakaoLoginByAppTouched(_ sender: Any) {
+//        if(UserApi.isKakaoTalkLoginAvailable()){ // 이용가능하다면
+//            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+//                    if let error = error {
+//                        print(error)
+//                    }
+//                    else {
+//                        print("loginWithKakaoAccount() success.")
+//
+//                        //do something
+//                        let token = oauthToken
+//                        guard let gettoken = token else {
+//                            return
+//                        }
+//                        print("login token \(gettoken)")
+//                        self.setUserInfo()
+//                    }
+//                }
+//        }
+//    }
+//
+//
+//
+//    func setUserInfo(){
+//        UserApi.shared.me(){(user, error) in
+//            if let error = error {
+//                print(error)
+//            }else{
+//                print("me() success")
+//                _ = user
+//                guard let userId = user?.id else { return }
+//                guard let userName = user?.kakaoAccount?.profile?.nickname else { return }
+//                guard let userEmail = user?.kakaoAccount?.email else { return }
+//
+//                print("user info : \(userId) \(userName) \(userEmail)")
+//                self.getToken()
+//            }
+//        }
+//
+//    }
+//
+//    func getToken(){
+//        UserApi.shared.accessTokenInfo {(accessTokenInfo, error) in
+//            if let error = error {
+//                print(error)
+//            }
+//            else {
+//                print("accessTokenInfo() success.")
+//                guard let token = accessTokenInfo else { return }
+//                print("login token \(token)")
+//
+//            }
+//        }
+//    }
         
         
 
