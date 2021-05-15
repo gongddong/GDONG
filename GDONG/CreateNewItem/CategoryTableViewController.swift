@@ -7,71 +7,67 @@
 
 import UIKit
 
-enum Category {
-  
+enum Category: String, CaseIterable {
+    case 배달음식
+    case 가공식품
+    case 뷰티미용
+    case 기타
 }
 
 class CategoryTableViewController: UITableViewController {
       
-    lazy var categoryList = [1, 2, 3, 4, 5, 6, 7]
+  lazy var categoryList = Category.allCases
+
+  var previousVC: CreateNewItemViewController?
+
+  private(set) var selectedCategory: String? = nil {
+    didSet {
+      guard let previousVC = previousVC else { return }
+      previousVC.categoryLabel.text = selectedCategory
+    }
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    tableView.dataSource = self
+    tableView.delegate = self
+
+  }
+
+  @IBAction func backButton(_ sender: Any) {
+    dismiss(animated: true, completion: nil)
+  }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    return categoryList.count
+  }
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else { return UITableViewCell() }
+    
+    var content = cell.defaultContentConfiguration()
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    content.text = categoryList[indexPath.row].rawValue
+
+    cell.contentConfiguration = content
+    
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    let cell = tableView.cellForRow(at: indexPath)!
+    
+    guard let content = cell.contentConfiguration as? UIListContentConfiguration else {
+      print(#function)
+      return
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-  */
+    
+    selectedCategory = content.text
+    
+    dismiss(animated: true, completion: nil)
+  }
 }
