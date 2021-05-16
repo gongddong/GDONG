@@ -52,7 +52,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="checkButton" destination="3Jf-Px-bD2" id="pkx-Vv-7nI"/>
-                <outlet property="priceTextField" destination="KVc-eW-db4" id="Uxu-fU-FNn"/>
+                <outlet property="priceTextField" destination="KVc-eW-db4" id="Lt1-Wf-t4Y"/>
             </connections>
             <point key="canvasLocation" x="75" y="132"/>
         </tableViewCell>

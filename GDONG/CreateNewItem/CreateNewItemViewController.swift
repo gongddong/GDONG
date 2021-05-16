@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import PhotosUI
 
-enum Cells: String, CaseIterable {
+private enum Cells: String, CaseIterable {
   case PhotoCell
   case TitleCell
   case CategoryCell
@@ -15,66 +16,113 @@ enum Cells: String, CaseIterable {
   case EntityCell
 }
 
+private enum InvalidValueError: Error {
+  case invalidPhoto
+  case invalidTitle
+  case invalidCategory
+  case invalidePrice
+  case invalidEntity
+}
+
 class CreateNewItemViewController: UIViewController {
   
-  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet private weak var tableView: UITableView!
   @IBOutlet weak var toolBar: UIToolbar!
   @IBOutlet weak var photoPickButton: UIButton!
   
-  var imagePickerView: UIImagePickerController = UIImagePickerController()
+  @IBOutlet weak var titleTextField: UITextField!
+  @IBOutlet weak var categoryLabel: UILabel!
+  @IBOutlet weak var priceCell: PriceCell! // 값을 두개 가져오기 위해서 이것은 cell 로 가져옴
+  @IBOutlet weak var entityTextView: UITextView!
   
-  weak var entityCell: EntityCell?
   
-  var categorySeugue: UIStoryboardSegue?
+  private let phPickerVC: PHPickerViewController = {
+    var configuration = PHPickerConfiguration()
+    configuration.filter = .images
+    configuration.selectionLimit = 0
+    
+    let picker = PHPickerViewController(configuration: configuration)
+    return picker
+  }()
   
-  //Cell Layout Order
-  let cellList = Cells.allCases
+  private var userSelectedPhotoImageList: [UIImage] = [] {
+    didSet {
+      
+    }
+  }
   
-  //MARK: ViewDidLoad
+  /// AllCases of enum `Cells`, the list used as tableview Layout order.
+  private let cellList = Cells.allCases
+  
+  /// MARK: ViewDidLoad
   override func viewDidLoad() {
     super.viewDidLoad()
     
     tableView.dataSource = self
     tableView.delegate = self
-//    tableView.allowsSelection = false
+    
+    phPickerVC.delegate = self
     
     regitserCells()
   }
   
-  
-  @IBAction func backToMainView(_ sender: Any) {
+  @IBAction func backToPreviousView(_ sender: Any) {
     dismiss(animated: true, completion: nil)
   }
   
-  @IBAction func userDidDoneWriting(_ sender: Any) {
+  @IBAction func userDidFinishedWriting(_ sender: Any) {
     
-    //TODO: 글 유효성 검사
-    let isWritingValid = validateWriting()
-    
-    guard isWritingValid else { presentAlert(); return }
-    
-    //TODO: POST & Dismiss
-    
-    // somePostFunction()
-    
-    dismiss(animated: true, completion: nil)
+    do {
+      
+      try validateWriting()
+      
+      //TODO: Post Function
+      print("somePostFunction()")
+      
+      dismiss(animated: true, completion: nil)
+    } catch {
+      presentAlert(with: error)
+    }
   }
   
-  // 글 유효성 검사
-  func validateWriting() -> Bool {
+  /// 글 유효성 검사
+  private func validateWriting() throws {
     
-    //tableView.visibleCells 순회하여 isValid 아닌 cell filter
+    //TODO: ADD Photo Validation
     
-    return true
+    guard let text = titleTextField.text, text.count > 0 else {
+      throw InvalidValueError.invalidTitle
+    }
+    
+    guard categoryLabel != nil else {
+      throw InvalidValueError.invalidCategory
+    }
+    
+    guard let priceText = priceCell.priceTextField.text, Int(priceText.filter{ $0 != ","})! > 0 else {
+      throw InvalidValueError.invalidePrice
+    }
+    
+    /// 글을 아무것도 작성하지 않을 시, lighgray 색상으로 placeholer text 가 채워진다.
+    guard let entityTextField = entityTextView, entityTextField.textColor != .lightGray else {
+      throw InvalidValueError.invalidEntity
+    }
+    
   }
   
-  func presentAlert() {
+  func presentAlert(with error: Error) {
     
-    //TODO: message need to be filled with cell's hasValid value
-//    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+    guard error is InvalidValueError else { assertionFailure(#function); return }
+    
+    let alert = UIAlertController(title: "비어있는 곳들을 채워주세요🥺", message: nil, preferredStyle: .alert)
+    
+    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+    
+    alert.addAction(action)
+    
+    present(alert, animated: true, completion: nil)
   }
   
-  // Register cells from Nib
+  /// Register cells in View Controller
   func regitserCells() {
     
     cellList.forEach {
@@ -83,45 +131,22 @@ class CreateNewItemViewController: UIViewController {
     }
   }
   
-  @objc func showImageSourceOption() {
+  @objc func presentPHPicker() {
     
-    let alertController = UIAlertController(title: "사진을 어디서 가져올까요?", message: nil, preferredStyle: .actionSheet)
+    present(phPickerVC, animated: true, completion: nil)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
-    // weak self 를 한 이유 : 현재는 발생하지 않지만 인스턴스의 다른 스코프에서 imagePickerAction 의 참조를 얻을 때
-    // retain cycle 이 발생할 수 있다.
-    let imagePickerAction = UIAlertAction(title: "사진 앨범", style: .default) { [weak self] _ in
-      print("showImagePicker()")
-      self?.showImagePicker()
+    if segue.identifier == "CategorySegue" {
+      guard let categoryTableVC = segue.destination as? CategoryTableViewController else {
+        return
+      }
+      categoryTableVC.previousVC = self
+      categoryTableVC.modalPresentationStyle = .fullScreen
     }
-    
-    alertController.addAction(imagePickerAction)
-    
-    let cameraAction = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
-      self?.showCamera()
-    }
-    
-    alertController.addAction(cameraAction)
-    
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-    
-    alertController.addAction(cancelAction)
-    
-    present(alertController, animated: true, completion: nil)
   }
   
-  func showImagePicker() {
-    self.imagePickerView.sourceType = .photoLibrary
-    present(self.imagePickerView, animated: true, completion: nil)
-  }
-  
-  func showCamera() {
-    self.imagePickerView.sourceType = .camera
-    present(self.imagePickerView, animated: true, completion: nil)
-  }
-  
-  deinit {
-    
-  }
 }
 
 extension CreateNewItemViewController: UITableViewDataSource {
@@ -143,13 +168,36 @@ extension CreateNewItemViewController: UITableViewDataSource {
     switch Cells(rawValue: reuseIdentifier) {
       case .PhotoCell:
         if let cell = cell as? PhotoCell {
-          cell.imagePickerButton.addTarget(self, action: #selector(showImageSourceOption), for: .touchUpInside)
+          cell.imagePickerButton.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
+          
+          return cell
+        }
+        
+      case .TitleCell:
+        if let cell = cell as? TitleCell {
+          self.titleTextField = cell.titleTextField
+          
+          return cell
+        }
+        
+      case .CategoryCell:
+        if let cell = cell as? CategoryCell {
+          self.categoryLabel = cell.categoryLabel
+          
           return cell
         }
           
+      case .PriceCell:
+        if let cell = cell as? PriceCell {
+          self.priceCell = cell
+          
+          return cell
+        }
+        
       case .EntityCell:
         if let cell = cell as? EntityCell {
           cell.textView.delegate = self
+          self.entityTextView = cell.textView
           return cell
         }
           
@@ -165,10 +213,11 @@ extension CreateNewItemViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     // EnticyCell 일때
+    // cellForRow(at:) 사용 불가. 아직 cell 들이 초기화 되어있지 않음
     if indexPath.row == cellList.count - 1 {
       return 300
     }
-
+    
     return UITableView.automaticDimension
   }
   
@@ -176,8 +225,13 @@ extension CreateNewItemViewController: UITableViewDelegate {
     
     guard let selectedCell = tableView.cellForRow(at: indexPath) else { fatalError("\(#function)") }
     
-    if selectedCell.reuseIdentifier == Cells.CategoryCell.rawValue {
-      print("test")
+    let cellName = selectedCell.reuseIdentifier!
+    
+    switch Cells(rawValue: cellName) {
+    case .CategoryCell:
+      performSegue(withIdentifier: "CategorySegue", sender: self)
+    default:
+      break
     }
     
     tableView.deselectRow(at: indexPath, animated: false)
@@ -187,7 +241,6 @@ extension CreateNewItemViewController: UITableViewDelegate {
 extension CreateNewItemViewController: UITextViewDelegate {
   
   func textViewDidBeginEditing(_ textView: UITextView) {
-    print(#function)
     if textView.textColor == .lightGray {
       textView.text = nil
       textView.textColor = .black
@@ -201,3 +254,32 @@ extension CreateNewItemViewController: UITextViewDelegate {
     }
   }
 }
+
+extension CreateNewItemViewController: PHPickerViewControllerDelegate {
+  
+  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    dismiss(animated: true, completion: nil)
+    
+    guard !results.isEmpty else { return }
+    
+    results.forEach { (pickerResult) in
+      
+      let itemProvider = pickerResult.itemProvider
+      if itemProvider.canLoadObject(ofClass: UIImage.self) {
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+          
+          if let image = image as? UIImage {
+            self?.userSelectedPhotoImageList.append(image)
+          }
+          
+          print(self?.userSelectedPhotoImageList.count)
+        }
+      }
+    }
+    
+    return
+  }
+  
+}
+
+

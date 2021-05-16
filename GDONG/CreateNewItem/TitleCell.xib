@@ -28,6 +28,9 @@
                     <constraint firstAttribute="bottom" secondItem="UsR-iw-ELl" secondAttribute="bottom" constant="18" id="wfX-ad-L7B"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="titleTextField" destination="UsR-iw-ELl" id="0QP-eN-SrG"/>
+            </connections>
             <point key="canvasLocation" x="-113.04347826086958" y="-15.401785714285714"/>
         </tableViewCell>
     </objects>

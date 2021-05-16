@@ -14,11 +14,14 @@ class PhotoCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     self.selectionStyle = .none
+    self.reuseIdentifier
   }
 }
 
 //MARK: PriceCell
 class TitleCell: UITableViewCell {
+  
+  @IBOutlet weak var titleTextField: UITextField!
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -27,18 +30,12 @@ class TitleCell: UITableViewCell {
 }
 
 class CategoryCell: UITableViewCell {
+  
+  @IBOutlet weak var categoryLabel: UILabel!
+  
   override func awakeFromNib() {
     super.awakeFromNib()
   }
-  
-  @IBAction func showCategoryViewController(_ sender: Any) {
-    print("test")
-  }
-  //  @objc func presentCategoryViewController() {
-//    let storyboard = UIStoryboard(name: "CategoryTableView", bundle: nil)
-//      guard let categoryTableViewController = storyboard.instantiateViewController(identifier: "CategoryTableViewController") as? CategoryTableViewController else { fatalError("\(#function)") }
-//    present(categoryTableViewController, animated: true, completion: nil)
-//  }
 }
 
 
@@ -68,6 +65,7 @@ class PriceCell: UITableViewCell {
   }
 }
 
+//TODO: UITexFieldDelegate CreateNewItemViewController로 옮기기
 extension PriceCell: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
