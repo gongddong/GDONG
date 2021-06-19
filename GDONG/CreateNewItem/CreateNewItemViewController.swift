@@ -54,6 +54,7 @@ class CreateNewItemViewController: UIViewController {
       DispatchQueue.main.async {
         self.photoCollectionView.reloadData()
         self.photoCountingLabel.text = "\(self.userSelectedPhotoImageList.count)/10"
+        
       }
     }
   }
@@ -77,27 +78,18 @@ class CreateNewItemViewController: UIViewController {
         postboard.price = self.priceCell.priceTextField.text
         postboard.category = self.categoryLabel.text
         
+        
         //콤마 지우고 디비에 저장될 수 있게 해주는코드
         let pricetext = postboard.price
         let priceCharList = [Character](pricetext!.filter { $0 != "," })
         let postprice = String(priceCharList)
         
+        
         //이미지 전송위한 코드
-        let image = UIImage(named: "strawberry.jpg")
-        let imgData = image!.jpegData(compressionQuality: 0.2)! //압축퀄리티 조정 필요
+        //let image = UIImage(named: "strawberry.jpg")
+        //let imgData = image!.jpegData(compressionQuality: 0.2)! //압축퀄리티 조정 필요
         
-        
-        
-        
-        
-        
-//        var data = [Data]()
-//          for i in image {
-//            let imageData = image[i].jpegData(compressionQuality: 0.5)
-//            data.append(imageData!)
-//          }
-        
-
+ 
                
         AF.upload(multipartFormData: { multipartFormData in do {
                        
@@ -110,8 +102,14 @@ class CreateNewItemViewController: UIViewController {
             multipartFormData.append(Data(postboard.category!.utf8), withName: "category", mimeType:"text/plain")
                        
             }
-                //이미지추가
-                multipartFormData.append(imgData, withName: "images", fileName: "\(imgData).jpg", mimeType: "image/jpg")
+            //이미지추가
+            //multipartFormData.append(img, withName: "images", fileName: "\(imgData).jpg", mimeType: "image/jpg")
+        
+            if let imageArray = postboard.images {
+                for images in imageArray {
+                    multipartFormData.append(images, withName: "images", fileName: "\(images).jpg", mimeType: "image/jpeg")
+                }
+            }
  
                 
             }, to: url, method: .post, headers: headers).responseJSON { response in
@@ -123,7 +121,7 @@ class CreateNewItemViewController: UIViewController {
                         print("성공")
                 
                     default:
-                        print(statusCode)
+                        print("\(statusCode)" + "실패")
                 }
                    
             }
@@ -377,6 +375,9 @@ extension CreateNewItemViewController: PHPickerViewControllerDelegate {
   
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     
+    //변수 설정 by lys
+    var postImageBoard = PostBoard()
+    
     dismiss(animated: true)
     guard !results.isEmpty else { return }
     
@@ -390,6 +391,10 @@ extension CreateNewItemViewController: PHPickerViewControllerDelegate {
           if let image = image as? UIImage {
             self?.userSelectedPhotoImageList.append(image)
           }
+            //post 용 이미지 코드
+            if let postimage = image as? Data {
+                postImageBoard.images?.append(postimage)
+            }
         }
       }
     }

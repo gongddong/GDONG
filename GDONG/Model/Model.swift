@@ -46,4 +46,5 @@ struct PostBoard: Codable {
     var needPeople : String? //없으면 post 불가, 임의로 값 설정
     var price : String?
     var category : String?
+    var images : [Data]?
 }
