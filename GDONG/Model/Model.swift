@@ -37,3 +37,13 @@ struct Category {
     var categoryImage: String
     var categoryText: String
 }
+
+struct PostBoard: Codable {
+    var author : String? //테스트용 아이디 이용
+    var title : String?
+    var content : String?
+    var link : String?
+    var needPeople : String? //없으면 post 불가, 임의로 값 설정
+    var price : String?
+    var category : String?
+}

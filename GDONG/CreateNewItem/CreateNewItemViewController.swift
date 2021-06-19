@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Alamofire
 
 private enum Cells: String, CaseIterable {
   case PhotoCell
@@ -56,6 +57,78 @@ class CreateNewItemViewController: UIViewController {
       }
     }
   }
+    
+    //post 코드 완성버전
+    func post() throws {
+               
+        let url = "http://172.30.1.56:5000/api/v0/post/upload"
+               
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        
+        var postboard = PostBoard()
+        
+        postboard.author = "test" //테스트용 아이디 이용
+        postboard.title = self.titleTextField.text
+        postboard.content = self.entityTextView.text
+        postboard.link = "link"
+        postboard.needPeople = "5"
+        postboard.price = self.priceCell.priceTextField.text
+        postboard.category = self.categoryLabel.text
+        
+        //콤마 지우고 디비에 저장될 수 있게 해주는코드
+        let pricetext = postboard.price
+        let priceCharList = [Character](pricetext!.filter { $0 != "," })
+        let postprice = String(priceCharList)
+        
+        //이미지 전송위한 코드
+        let image = UIImage(named: "strawberry.jpg")
+        let imgData = image!.jpegData(compressionQuality: 0.2)! //압축퀄리티 조정 필요
+        
+        
+        
+        
+        
+        
+//        var data = [Data]()
+//          for i in image {
+//            let imageData = image[i].jpegData(compressionQuality: 0.5)
+//            data.append(imageData!)
+//          }
+        
+
+               
+        AF.upload(multipartFormData: { multipartFormData in do {
+                       
+            multipartFormData.append(Data(postboard.author!.utf8), withName: "author", mimeType:"text/plain")
+            multipartFormData.append(Data(postboard.title!.utf8), withName: "title", mimeType:"text/plain")
+            multipartFormData.append(Data(postboard.content!.utf8), withName: "content", mimeType:"text/plain")
+            multipartFormData.append(Data(postboard.link!.utf8), withName: "link", mimeType:"text/plain")
+            multipartFormData.append(Data(postboard.needPeople!.utf8), withName: "needPeople", mimeType:"text/plain")
+            multipartFormData.append(Data(postprice.utf8), withName: "price", mimeType:"text/plain")
+            multipartFormData.append(Data(postboard.category!.utf8), withName: "category", mimeType:"text/plain")
+                       
+            }
+                //이미지추가
+                multipartFormData.append(imgData, withName: "images", fileName: "\(imgData).jpg", mimeType: "image/jpg")
+ 
+                
+            }, to: url, method: .post, headers: headers).responseJSON { response in
+                
+            guard let statusCode = response.response?.statusCode else { return }
+                
+                switch statusCode {
+                    case 200:
+                        print("성공")
+                
+                    default:
+                        print(statusCode)
+                }
+                   
+            }
+               
+        }
 
   
   /// AllCases of enum `Cells`, the list used as tableview Layout order.
@@ -98,6 +171,7 @@ class CreateNewItemViewController: UIViewController {
     
     do {
       try validateWriting()
+        try post()
       
       //TODO: Post Function
       print("somePostFunction()")
