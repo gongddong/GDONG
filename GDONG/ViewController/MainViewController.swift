@@ -97,8 +97,9 @@ class MainViewController : TabmanViewController {
         // Add to view
         addBar(bar, dataSource: self, at: .top)
         
-        search.tintColor = .black
-        add.tintColor = .black
+        
+//        search.tintColor = .black
+//        add.tintColor = .black
 
 
     }
