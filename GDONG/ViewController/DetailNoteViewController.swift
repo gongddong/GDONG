@@ -142,7 +142,7 @@ class DetailNoteViewController: UIViewController, UIGestureRecognizerDelegate {
         document.updateData([
             "users": FieldValue.arrayUnion(["\(userEamil)"])
         ])
-        
+        ChatService.shared.joinChatList(postId: postId)
         document.getDocument { (document, error) in
             if let document = document, document.exists {
                 guard let ChatRoomName = document.data()!["ChatRoomName"] as? String else {

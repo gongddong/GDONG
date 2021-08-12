@@ -39,59 +39,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         
         
-        //apple id 기반으로 사용자 인증 요청
-//        let appleIDProvider = ASAuthorizationAppleIDProvider()
-//        appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
+//        
+
+        
+//        appleIDProvider.getCredentialState(forUserID: userIdentifier) { [self] (credentialState, error) in
 //            switch credentialState {
 //            case .authorized:
-//                print("apple authorized")
-//                break // The Apple ID credential is valid.
-//            case .revoked, .notFound:
+//                // The Apple ID credential is valid.
+//                print("해당 ID는 연동되어있습니다.")
+//                API.shared.autoLogin()
+//            case .revoked:
 //                // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
-//                DispatchQueue.main.async {
-//                    print(".revoked, .notFound")
-//                    //self.window?.rootViewController?.showLoginViewController()
-//                }
+//                print("해당 ID는 연동되어있지않습니다.")
+//            case .notFound:
+//                // The Apple ID credential is either was not found, so show the sign-in UI.
+//                print("해당 ID를 찾을 수 없습니다.")
+//
 //            default:
 //                break
-//            }
-//        }
-        
-//        if #available(iOS 8.0, *) {
-//              // For iOS 10 display notification (sent via APNS)
-//              UNUserNotificationCenter.current().delegate = self
-//
-//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-//              UNUserNotificationCenter.current().requestAuthorization(
-//                options: authOptions,
-//                completionHandler: {_, _ in })
-//            } else {
-//              let settings: UIUserNotificationSettings =
-//                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-//              application.registerUserNotificationSettings(settings)
-//            }
-//
-//
-//        //앱 추적 허용
-//        UNUserNotificationCenter.current().delegate = self
-//        application.registerForRemoteNotifications()
-//
-//        ATTrackingManager.requestTrackingAuthorization { status in
-//            DispatchQueue.main.async {
-//                switch status {
-//                case .authorized:
-//                    //idfa = identity for advertisers
-//                    let idfa = ASIdentifierManager.shared().advertisingIdentifier
-//                    //print("앱 추적 허용")
-//
-//                case .denied,
-//                     .notDetermined,
-//                     .restricted:
-//                    //print("앱 추적 금지 요청")
-//                    break
-//                @unknown default:
-//                    break
-//                }
 //            }
 //        }
         

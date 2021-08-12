@@ -62,6 +62,8 @@ class API {
             "device_token" : deviceToken
         ]
 
+        //print(access_token)
+
         AF.request(Config.baseUrl + "/auth/signin/\(from)", method: .get, parameters: params, encoding: URLEncoding(destination: .queryString)).validate().responseJSON {
             (response) in
             if let httpResponse = response.response, let fields = httpResponse.allHeaderFields as? [String: String]{

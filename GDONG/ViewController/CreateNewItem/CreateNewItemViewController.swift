@@ -106,18 +106,18 @@ class CreateNewItemViewController: UIViewController {
         let link = link.text!
         
         //self.profileImage = images[0].base64EncodedString(options: .lineLength64Characters)
-        print("post price \(postprice)")
-        print("sellMode \(sellMode)")
-        print(titleTextField.text!)
-        print(entityTextView.text)
-        print(postprice)
-        print(type(of: postprice))
-        print(self.categoryLabel.text!)
-        print(self.images)
-        print(location?.coordinates)
-        print(needPeople)
-        print(type(of: needPeople))
-        print(link)
+//        print("post price \(postprice)")
+//        print("sellMode \(sellMode)")
+//        print(titleTextField.text!)
+//        print(entityTextView.text)
+//        print(postprice)
+//        print(type(of: postprice))
+//        print(self.categoryLabel.text!)
+//        print(self.images)
+//        print(location?.coordinates)
+//        print(needPeople)
+//        print(type(of: needPeople))
+//        print(link)
         
         PostService.shared.uploadPost(title: self.titleTextField.text!, content: self.entityTextView.text, link: link, needPeople: needPeople, price: postprice, category: self.categoryLabel.text!, images: images, profileImg: "1234", location: location!, sellMode: sellMode, completionHandler: { (response) in
             //print("postId : \(response.postid)")
@@ -130,83 +130,6 @@ class CreateNewItemViewController: UIViewController {
         
             
     }
-    
-//    //post 코드 완성버전
-//    func post() throws {
-//
-//        let url = Config.baseUrl + "/post/upload"
-//        let headers: HTTPHeaders = [
-//            "Content-type": "multipart/form-data"
-//        ]
-//
-//        var postboard = PostBoard()
-//
-//        guard let author =  UserDefaults.standard.string(forKey: UserDefaultKey.userNickName) else { return }
-//        guard let authorEmail = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else { return }
-//
-//        var locationManager: CLLocationManager!
-//        let coor = locationManager.location?.coordinate
-//        let latitude = coor?.latitude
-//        let longitude = coor?.longitude
-//
-//        postboard.author = "test nicname"
-//        postboard.title = self.titleTextField.text!
-//        postboard.content = self.entityTextView.text
-//        postboard.link = "link"
-//        postboard.needPeople = "5"
-//        guard let price: Int = Int(self.priceCell.priceTextField.text!) else { return }
-//        postboard.price = price
-//        postboard.category = self.categoryLabel.text!
-//
-//
-//        //콤마 지우고 디비에 저장될 수 있게 해주는코드
-//        let pricetext = price
-//        let priceCharList = [Character](pricetext.filter { $0 != "," })
-//        let postprice = String(priceCharList)
-//
-//
-//        이미지 전송위한 코드
-//        let image = UIImage(named: "strawberry.jpg")
-//        let imgData = image!.jpegData(compressionQuality: 0.2)! //압축퀄리티 조정 필요
-//
-//
-//
-//        AF.upload(multipartFormData: { multipartFormData in do {
-//            print("[API] /post/upload 유저 글 쓰기 업데이트")
-//            multipartFormData.append(Data(postboard.author!.utf8), withName: "author", mimeType:"text/plain")
-//            multipartFormData.append(Data(postboard.title!.utf8), withName: "title", mimeType:"text/plain")
-//            multipartFormData.append(Data(postboard.content!.utf8), withName: "content", mimeType:"text/plain")
-//            multipartFormData.append(Data(postboard.link!.utf8), withName: "link", mimeType:"text/plain")
-//            multipartFormData.append(Data(postboard.needPeople!.utf8), withName: "needPeople", mimeType:"text/plain")
-//            multipartFormData.append(Data(postprice.utf8), withName: "price", mimeType:"text/plain")
-//            multipartFormData.append(Data(postboard.category!.utf8), withName: "category", mimeType:"text/plain")
-//            multipartFormData.append(Data(authorEmail.utf8), withName: "email", mimeType:"text/plain")
-//            }
-//            이미지추가
-//            multipartFormData.append(img, withName: "images", fileName: "\(imgData).jpg", mimeType: "image/jpg")
-//
-//            if let imageArray = postboard.images {
-//                for images in imageArray {
-//                    multipartFormData.append(images, withName: "images", fileName: "\(images).jpg", mimeType: "image/jpeg")
-//                }
-//            }
-//
-//
-//            }, to: url, method: .post, headers: headers).responseJSON { response in
-//
-//            guard let statusCode = response.response?.statusCode else { return }
-//
-//                switch statusCode {
-//                    case 200:
-//                        print("성공")
-//
-//                    default:
-//                        print("\(statusCode)" + "실패")
-//                }
-//
-//            }
-//
-//        }
 
   
   /// AllCases of enum `Cells`, the list used as tableview Layout order.
@@ -279,6 +202,7 @@ class CreateNewItemViewController: UIViewController {
             //make new chat room
             print("completed data : \(chatData.chatId) and \(chatData.chatImage)")
             self.createNewChat(postId: chatData.chatId!, chatImage: chatData.chatImage!)
+            ChatService.shared.joinChatList(postId: chatData.chatId!)
         })
 
         self.dismiss(animated: true, completion: nil)
@@ -295,7 +219,6 @@ class CreateNewItemViewController: UIViewController {
             print("there are no email")
             return
         }
-        print(myEmail)
     
         print("postId : \(postId)")
         

@@ -63,6 +63,7 @@ class ChatListViewController: UIViewController {
     }
     
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,7 +80,6 @@ class ChatListViewController: UIViewController {
         API.shared.getUserInfo(completion: { (response) in
             self.currentUser = response
         })
-        
         loadChat()
         
         //당겨서 새로고침
@@ -124,7 +124,6 @@ class ChatListViewController: UIViewController {
                 }else if queryCount >= 1 {
                     print("query count is \(queryCount)")
                     for doc in chatQuerySnap!.documents {
-                        print(doc.documentID) //N9f8ugKxMGslE8oNusnA
                         guard let ChatRoomName = doc.data()["ChatRoomName"] as? String else {
                             print("no chat room name in database")
                             return
@@ -175,7 +174,7 @@ class ChatListViewController: UIViewController {
             return
         }
         
-        let postId = Int(chatRoomId)
+        guard let postId = Int(chatRoomId) else { return }
         
         print("deleteFromChat test")
         let document = Firestore.firestore().collection("Chats").document("\(chatRoomId)")
@@ -189,11 +188,11 @@ class ChatListViewController: UIViewController {
                 
                 if(users.count == 1){ //유저가 한명만 남았을 때(방장일때 밖에 없음) 방 삭제
                     print("user count is 1")
-                    
+                    ChatService.shared.quitChatList(postId: postId)
                     //채팅방 삭제
-                    self.deleteChatRoom(postId: postId!)
-                    //게시글 삭제
-                    PostService.shared.deletePost(postId: postId!)
+                    self.deleteChatRoom(postId: postId)
+                    
+                    PostService.shared.deletePost(postId: postId)
                     completed("OK")
                 }else { // 아직 유저 여러명일때
                     // 글쓴이인경우 == users[0]
@@ -204,6 +203,7 @@ class ChatListViewController: UIViewController {
                     }else {
                         // 글쓴이가 아닌경우 -> 채팅방에서 나가기
                         self.deleteUser(indexPath: indexPath)
+                        ChatService.shared.quitChatList(postId: postId)
                         completed("OK")
                     }
                    
@@ -253,46 +253,7 @@ class ChatListViewController: UIViewController {
         
     }
         
-    
-    
-//    private func getConversation() {
-//        guard let email = UserDefaults.standard.value(forKey: UserDefaultKey.userEmail) as? String else {
-//            return
-//        }
-//
-//        if let observer = loginObserver {
-//            NotificationCenter.default.removeObserver(observer)
-//        }
-//
-//        print("starting conversation fetch...")
 
-       // let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-        
-        // get all conversation
-        //DatabaseManager.shared.getAllConversations(for: safeEmail, completion: { [weak self] (result) in
-               //                                     print(result)})
- //       DatabaseManager.shared.getAllConversations(for: safeEmail, completion: { [weak //self] result in
-//            switch result {
-//            case .success(let conversations):
-//                print("successfully got conversation models")
-//                guard !conversations.isEmpty else {
-//                    self?.tableView.isHidden = true
-//                    self?.noConversationsLabel.isHidden = false
-//                    return
-//                }
-//                self?.noConversationsLabel.isHidden = true
-//                self?.tableView.isHidden = false
-//                self?.conversations = conversations
-//
-//                DispatchQueue.main.async {
-//                    self?.tableView.reloadData()
-//                }
-//            case .failure(let error):
-//                self?.tableView.isHidden = true
-//                self?.noConversationsLabel.isHidden = false
-//                print("failed to get convos: \(error)")
-//            }
-//        })    }
 
 }
 
@@ -332,22 +293,6 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
         
     }
-    
-//    // this method handles row deletion
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//
-//        if editingStyle == .delete {
-//
-//            // remove the item from the data model
-//            animals.remove(at: indexPath.row)
-//
-//            // delete the table view row
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//
-//        } else if editingStyle == .insert {
-//            // Not used in our example, but if you were adding a new row, this is where you would do it.
-//        }
-//    }
     
     //swipe 하여 채팅방 나가기
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
