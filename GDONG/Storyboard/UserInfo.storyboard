@@ -535,6 +535,19 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xd9-vk-9Tv">
                                 <rect key="frame" x="0.0" y="300" width="414" height="508"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5Ww-Lh-Eaj">
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Ww-Lh-Eaj" id="UBN-gL-mO5" customClass="TableViewCell" customModule="GDONG" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="PPu-Xv-bsG" kind="show" identifier="detail" id="hm1-ef-ONX"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="c8Z-b2-pHW"/>
@@ -554,6 +567,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sCt-ph-vya" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3104.347826086957" y="-524.33035714285711"/>
+        </scene>
+        <!--detail-->
+        <scene sceneID="iH6-Dp-dhh">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="detail" storyboardName="Main" referencedIdentifier="detail" id="PPu-Xv-bsG" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="jop-Q1-6S1"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B0M-gz-01R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2880" y="-439"/>
         </scene>
         <!--Follo View Controller-->
         <scene sceneID="8kx-b6-pm7">
@@ -624,7 +647,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hUa-K5-UtL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1817" y="171"/>
+            <point key="canvasLocation" x="2025" y="171"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="32v-CE-Nhn">

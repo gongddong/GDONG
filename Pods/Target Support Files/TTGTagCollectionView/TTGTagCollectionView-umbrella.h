@@ -11,7 +11,13 @@
 #endif
 
 #import "TTGTagCollectionView.h"
+#import "TTGTextTagAttributedStringContent.h"
+#import "TTGTextTagContent.h"
+#import "TTGTextTagStringContent.h"
+#import "TTGTextTagStyle.h"
+#import "TTGTextTag.h"
 #import "TTGTextTagCollectionView.h"
+#import "TTGTagCollectionView-Bridging-Header.h"
 
 FOUNDATION_EXPORT double TTGTagCollectionViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char TTGTagCollectionViewVersionString[];

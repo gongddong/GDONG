@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54E1529344D75E72330A0B5F /* Pods_GDONG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CB9861EE62390BC891B506 /* Pods_GDONG.framework */; };
+		409D0E3426B5A64700D67626 /* PopularBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409D0E3026B5A64700D67626 /* PopularBoardCell.xib */; };
+		409D0E3526B5A64700D67626 /* PopularBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D0E3126B5A64700D67626 /* PopularBoardCell.swift */; };
+		409D0E3626B5A64700D67626 /* PopularPeopleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409D0E3226B5A64700D67626 /* PopularPeopleCell.xib */; };
+		409D0E3726B5A64700D67626 /* PopularPeopleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D0E3326B5A64700D67626 /* PopularPeopleCell.swift */; };
 		8E1DA7B8268AF13B0049E658 /* GetUserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7B7268AF13B0049E658 /* GetUserProfileViewController.swift */; };
 		8E1DA7BA268B69F80049E658 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7B9268B69F80049E658 /* Chat.swift */; };
 		8E1DA7BC268B6A020049E658 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7BB268B6A020049E658 /* ChatUser.swift */; };
@@ -111,6 +114,7 @@
 		8EF8F7C52689C91B003ADFA9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8F7C42689C91B003ADFA9 /* ViewController.swift */; };
 		8EF8F7CE2689D076003ADFA9 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF8F7CD2689D076003ADFA9 /* Login.storyboard */; };
 		8EFFBFB026BAA1AF007C1868 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFBFAF26BAA1AF007C1868 /* ChatService.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -129,8 +133,9 @@
 /* Begin PBXFileReference section */
 		8E1D605526B92B9600DF53FE /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		8E1D605726B92B9600DF53FE /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+
 		8E1DA7B7268AF13B0049E658 /* GetUserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserProfileViewController.swift; sourceTree = "<group>"; };
-		8E1DA7B9268B69F80049E658 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Chat.swift; path = "/Users/sojeong/URIPLJECT/GDONGProject/remote_total/GDONG-front/GDONG/ViewController/ChatVC/Chat.swift"; sourceTree = "<absolute>"; };
+		8E1DA7B9268B69F80049E658 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		8E1DA7BB268B6A020049E658 /* ChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
 		8E1DA7BD268B6A1F0049E658 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		8E42FEED261D958100763B61 /* GDONG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GDONG.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,8 +238,10 @@
 		8EF8F7C22689C903003ADFA9 /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		8EF8F7C42689C91B003ADFA9 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8EF8F7CD2689D076003ADFA9 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+
 		8EFFBFAF26BAA1AF007C1868 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		B5CB9861EE62390BC891B506 /* Pods_GDONG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GDONG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+
 		ED3C4B96BF1AF2716918D5A6 /* Pods-GDONG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDONG.release.xcconfig"; path = "Target Support Files/Pods-GDONG/Pods-GDONG.release.xcconfig"; sourceTree = "<group>"; };
 		EDB6198BF78650B9DC772EC0 /* Pods-GDONG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDONG.debug.xcconfig"; path = "Target Support Files/Pods-GDONG/Pods-GDONG.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,7 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54E1529344D75E72330A0B5F /* Pods_GDONG.framework in Frameworks */,
+				C9BB69F4584441326987B31A /* Pods_GDONG.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,9 +261,11 @@
 		57D67EE7B5874B8F4961E81B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+
 				B5CB9861EE62390BC891B506 /* Pods_GDONG.framework */,
 				8E1D605526B92B9600DF53FE /* UserNotifications.framework */,
 				8E1D605726B92B9600DF53FE /* UserNotificationsUI.framework */,
+
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -395,6 +404,10 @@
 				8E772B7C267C8CA40034C2BF /* RecentSearchTableViewCell.xib */,
 				8EF8F7962681E5D2003ADFA9 /* FolloTableViewCell.swift */,
 				8EF8F7972681E5D2003ADFA9 /* FolloTableViewCell.xib */,
+				409D0E3126B5A64700D67626 /* PopularBoardCell.swift */,
+				409D0E3026B5A64700D67626 /* PopularBoardCell.xib */,
+				409D0E3326B5A64700D67626 /* PopularPeopleCell.swift */,
+				409D0E3226B5A64700D67626 /* PopularPeopleCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -460,9 +473,8 @@
 				8ED15EA22696E7A9002943C9 /* UserInfo.storyboard */,
 				8ED15EAC269AEAD1002943C9 /* Search.storyboard */,
 			);
-			name = Storyboard;
-			path = "/Users/sojeong/URIPLJECT/GDONGProject/remote_total/GDONG-front/GDONG/Storyboard";
-			sourceTree = "<absolute>";
+			path = Storyboard;
+			sourceTree = "<group>";
 		};
 		8E772BB7267C8D7D0034C2BF /* Image */ = {
 			isa = PBXGroup;
@@ -619,6 +631,7 @@
 				8EF8F7CE2689D076003ADFA9 /* Login.storyboard in Resources */,
 				8EF8F7C12689C859003ADFA9 /* Chat.storyboard in Resources */,
 				8E9A61D426BE65E0007AD6EB /* PopularPeopleCell.xib in Resources */,
+
 				8E772B6F267C8C750034C2BF /* PriceCell.xib in Resources */,
 				8EF2887D2662A97500840302 /* JusoTableViewCell.xib in Resources */,
 				8ED15EA32696E7A9002943C9 /* UserInfo.storyboard in Resources */,
@@ -734,6 +747,7 @@
 				8E772B90267C8CB30034C2BF /* ProfileViewController.swift in Sources */,
 				8EF8F7A6268468C5003ADFA9 /* MessageModel.swift in Sources */,
 				8E42FEF1261D958100763B61 /* AppDelegate.swift in Sources */,
+				409D0E3526B5A64700D67626 /* PopularBoardCell.swift in Sources */,
 				8E772B89267C8CA40034C2BF /* TableViewCell.swift in Sources */,
 				8E772BC7267C8FFB0034C2BF /* KeychainItem.swift in Sources */,
 				8E9A61D526BE65E0007AD6EB /* PopularBoardCell.swift in Sources */,
@@ -764,7 +778,9 @@
 				8E772BB2267C8CE70034C2BF /* MainViewModel.swift in Sources */,
 				8E772BAB267C8CD10034C2BF /* RecommendViewController.swift in Sources */,
 				8EF8F20D2694B9620034BD99 /* PriceAndPeopleTableViewCell.swift in Sources */,
+
 				8E9A61D326BE65E0007AD6EB /* PopularPeopleCell.swift in Sources */,
+
 				8E772B70267C8C750034C2BF /* ViewCells.swift in Sources */,
 				8E42FF0A261D9B4600763B61 /* LoginViewController.swift in Sources */,
 				8E42FEF3261D958100763B61 /* SceneDelegate.swift in Sources */,
@@ -922,6 +938,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = FJ57DUH592;
+
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
@@ -987,9 +1004,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GDONG/GDONG.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = FJ57DUH592;
+
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
@@ -1041,6 +1060,7 @@
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Develop.com-GDONG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

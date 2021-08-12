@@ -235,6 +235,7 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
                 performSegue(withIdentifier: "detail", sender: nil)
             }
         }
+
     
 }
 
@@ -249,6 +250,11 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
 //}
 //
 //
+
+
+
+
+
 
 
 
