@@ -33,7 +33,7 @@ class ChatService {
         })
     }
     
-    func getChatList(postId: Int){
+    func getChatList(postId: Int, completionHandler: @escaping (([Users]) -> (Void))){
         guard let authorEmail = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else { return }
         guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else { return }
         
@@ -48,7 +48,20 @@ class ChatService {
             print("[API] /chat/join \(postId)에 참여 중인 list")
             switch response.result {
                 case .success(let obj):
-                    print(obj)
+                    do {
+                        let response = obj as! NSDictionary
+                        print(response)
+                        guard let list = response["list"] as? [Dictionary<String, Any>] else {
+                            print("chatList data can't load")
+                            return }
+                        let dataJSON = try JSONSerialization.data(withJSONObject: list, options: .prettyPrinted)
+                        let postData = try JSONDecoder().decode([Users].self, from: dataJSON)
+                        completionHandler(postData)
+                    }
+                    
+                    catch {
+                        print("error: ", error)
+                    }
                  case .failure(let e):
                      print(e.localizedDescription)
                  }

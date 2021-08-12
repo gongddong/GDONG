@@ -7,6 +7,7 @@
 
 import UIKit
 import AuthenticationServices
+
 import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoOpenSDK
@@ -116,6 +117,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         return self.view.window!
     }
     
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         
         switch authorization.credential {
@@ -135,7 +137,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             print("User ID : \(userIdentifier)")
             print("User Email : \(email)")
             print("User Name : \(fullName)")
-            
+            print("authorizationController")
+            UserDefaults.standard.setValue(userIdentifier, forKey: UserDefaultKey.appleIdentifier)
             API.shared.oAuth(from: "apple", access_token: "identifyToken is \(tokeStr) /// authorizationCode is \(codeStr)", name: "\(fullName)")
 //            self.autoLogin(UN: fullName.givenName! + fullName.familyName!, UE: email, FROM: "apple")
 
@@ -162,6 +165,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
+        print("appleLoginButtonClick")
     }
     
 
@@ -177,16 +181,11 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
         }
         // 사용자 정보 가져오기
             if let userName = user.profile.name,
-               let userEmail = user.profile.email,
-               let idToken = user.authentication.idToken,
+//               let userEmail = user.profile.email,
+//               let idToken = user.authentication.idToken,
                let accessToken = user.authentication.accessToken
                 //let refreshToken = user.authentication.refreshToken
         { //send to server
-                
-//                print("google login:")
-//                print("google token \(idToken)")
-//                print("User Email : \(userEmail)")
-//                print("User Name : \((userName))")
                 
                 API.shared.oAuth(from: "google", access_token: accessToken, name: userName)
                 
@@ -219,7 +218,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
 
                         //do something
                         let token = oauthToken
-                        print("kakao login \(token)")
+                        //print("kakao login \(token)")
                         guard let accessToken = token?.accessToken else {
                             return
                         }

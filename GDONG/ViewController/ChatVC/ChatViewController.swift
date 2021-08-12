@@ -321,7 +321,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                     print("Error: \(error)")
                     return
                 } else {
-                    print("here")
+                    //print("here")
                     self.docReference = document
                     self.messages.removeAll()
                     if let threads = threadQuery?.documents {
@@ -381,6 +381,30 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
         DispatchQueue.main.async {
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
         }
+      
+        
+        postPushNotification(messageContent: message.content)
+       
+    }
+    
+    
+    //채팅 방 내 사람들에게 push noti 보내기
+    private func postPushNotification(messageContent: String){
+        var nickNameList = [String]()
+        
+        guard let postId = Int((chatRoom?.chatId)!) else {
+            print("insertNewMessage can't find \(String(describing: chatRoom?.chatId))")
+            return
+        }
+        
+        ChatService.shared.getChatList(postId: postId, completionHandler: { (response) in
+            for i in response {
+                nickNameList.append(i.nickName)
+                API.shared.pushNotification(nickname: i.nickName, message: messageContent)
+            }
+        })
+        
+        
     }
     
     private func save(_ message: Message) {
@@ -399,7 +423,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
                 print("Error Sending message: \(error)")
                 return
             }
-            print("save \(data)")
+//            print("save \(data)")
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
         })
     }
@@ -407,17 +431,17 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //When use press send button this method is called.
 //        let message = Message(id: UUID().uuidString, content: text, created: Date(), senderID: currentUser.uid, senderName: currentUser.displayName!)
-        print("messageid \(UUID().uuidString)")
+        //print("messageid \(UUID().uuidString)")
         let message = Message(id: UUID().uuidString, content: text, created: Date(), senderID: currentUser.email, senderName: currentUser.nickName)
-        print("messageid \(message)")
-        //calling function to insert and save message
+        //print("messageid \(message)")
+        
         insertNewMessage(message)
         save(message)
-        //clearing input field
+        
+        
         inputBar.inputTextView.text = ""
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-        //messagesCollectionView.scrollToBottom(animated: true)
     }
     
     //This method return the current sender ID and name
