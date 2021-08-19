@@ -106,18 +106,18 @@ class CreateNewItemViewController: UIViewController {
         let link = link.text!
         
         //self.profileImage = images[0].base64EncodedString(options: .lineLength64Characters)
-//        print("post price \(postprice)")
-//        print("sellMode \(sellMode)")
-//        print(titleTextField.text!)
-//        print(entityTextView.text)
-//        print(postprice)
-//        print(type(of: postprice))
-//        print(self.categoryLabel.text!)
-//        print(self.images)
-//        print(location?.coordinates)
-//        print(needPeople)
-//        print(type(of: needPeople))
-//        print(link)
+        print("post price \(postprice)")
+        print("sellMode \(sellMode)")
+        print(titleTextField.text!)
+        print(entityTextView.text)
+        print(postprice)
+        print(type(of: postprice))
+        print(self.categoryLabel.text!)
+        print(self.images)
+        print(location?.coordinates)
+        print(needPeople)
+        print(type(of: needPeople))
+        print(link)
         
         PostService.shared.uploadPost(title: self.titleTextField.text!, content: self.entityTextView.text, link: link, needPeople: needPeople, price: postprice, category: self.categoryLabel.text!, images: images, profileImg: "1234", location: location!, sellMode: sellMode, completionHandler: { (response) in
             //print("postId : \(response.postid)")
@@ -184,6 +184,26 @@ class CreateNewItemViewController: UIViewController {
          self.view.endEditing(true)
 
    }
+    
+    @objc func didTapBuyButton(){
+      print("did tap buy button")
+      }
+
+      @objc func didTapSellButton(){
+          print("did tap sell button")
+          guard let isSeller = UserDefaults.standard.bool(forKey: UserDefaultKey.isSeller) as? Bool else {
+              return
+          }
+          print(isSeller)
+          if(isSeller == false){ // seller 권한 없는데 이 모드로 글 쓰려 한다면
+              self.alertViewController(title: "권한 없음", message: "판매자 글쓰기 권한이 없습니다", completion: { (response) in
+                  if response == "OK"{
+                      self.sellButton.isSelected = false
+                      BuySellTableViewCell.ButtonSetting(sender: self.sellButton)
+                  }
+              })
+          }
+       }
   
   deinit {
     NotificationCenter.default.removeObserver(token as Any)
@@ -200,7 +220,7 @@ class CreateNewItemViewController: UIViewController {
         // TODO: Post Function
         self.postData(completed: {(chatData) in
             //make new chat room
-            print("completed data : \(chatData.chatId) and \(chatData.chatImage)")
+            //print("completed data : \(chatData.chatId) and \(chatData.chatImage)")
             self.createNewChat(postId: chatData.chatId!, chatImage: chatData.chatImage!)
             ChatService.shared.joinChatList(postId: chatData.chatId!)
         })
@@ -359,6 +379,8 @@ extension CreateNewItemViewController: UITableViewDataSource {
         if let cell = cell as? BuySellTableViewCell {
             self.buyButton = cell.buyButton
             self.sellButton = cell.sellButton
+            self.buyButton.addTarget(self, action: #selector(didTapBuyButton), for: .touchUpInside)
+            self.sellButton.addTarget(self, action: #selector(didTapSellButton), for: .touchUpInside)
             return cell
         }
         

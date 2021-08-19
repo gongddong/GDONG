@@ -133,7 +133,7 @@ class myWroteViewController: UIViewController {
             return
         }
         
-        API.shared.getauthorPost(start: -1, author: userNickName, num: 100, completion: {
+        PostService.shared.getauthorPost(start: -1, author: userNickName, num: 100, completion: {
             response in
             self.myPostBoard = response!
             DispatchQueue.main.async {
@@ -227,7 +227,7 @@ class myHeartViewController: UIViewController {
         }
         
         
-        API.shared.getMyHeartPost(nickName: userNickName, completion: { (response) in
+        PostService.shared.getMyHeartPost(nickName: userNickName, completion: { (response) in
             self.myHeartBoard = response!
             DispatchQueue.main.async {
                 self.tableView.reloadData()

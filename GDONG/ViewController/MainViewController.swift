@@ -59,7 +59,7 @@ class MainViewController : TabmanViewController {
     override func viewWillAppear(_ animated: Bool) {
         //locationString update
 
-        API.shared.getUserInfo(completion: {
+        UserService.shared.getUserInfo(completion: {
             response in
             let longitude = response.location.coordinates[0]
             let latitude = response.location.coordinates[1]

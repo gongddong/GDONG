@@ -149,16 +149,16 @@ class BuySellTableViewCell: UITableViewCell {
     @IBAction func sellButtonAction(_ sender: UIButton) {
         sender.isSelected = true
         buyButton.isSelected = false
-        ButtonSetting(sender: buyButton)
-        ButtonSelectedSetting(sender: sender)
+        BuySellTableViewCell.ButtonSetting(sender: buyButton)
+        BuySellTableViewCell.ButtonSelectedSetting(sender: sender)
         
     }
     
     @IBAction func buyButtonAction(_ sender: UIButton) {
         sender.isSelected = true
         sellButton.isSelected = false
-        ButtonSetting(sender: sellButton)
-        ButtonSelectedSetting(sender: sender)
+        BuySellTableViewCell.ButtonSetting(sender: sellButton)
+        BuySellTableViewCell.ButtonSelectedSetting(sender: sender)
     }
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -169,13 +169,13 @@ class BuySellTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func ButtonSetting(sender: UIButton){
+    static func ButtonSetting(sender: UIButton){
         sender.backgroundColor = UIColor.white
         sender.setTitleColor(UIColor.darkGray, for: .normal)
     }
     
     //눌렀을 때
-    func ButtonSelectedSetting(sender: UIButton){
+    static func ButtonSelectedSetting(sender: UIButton){
         sender.backgroundColor = UIColor.darkGray
         sender.setTitleColor(UIColor.white, for: .normal)
     }

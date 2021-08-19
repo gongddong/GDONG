@@ -34,7 +34,7 @@ class NickNameViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
            } else{
             //dp에 저장된 이름이 았으면
-                 API.shared.checkNickName(nickName: nickNameTextfield.text!, completion: { (string) in
+                 UserService.shared.checkNickName(nickName: nickNameTextfield.text!, completion: { (string) in
               
                      if(string == "true"){
                         self.performSegue(withIdentifier: "location", sender: nil)

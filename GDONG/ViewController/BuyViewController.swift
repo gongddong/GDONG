@@ -8,6 +8,7 @@
 import UIKit
 import PagingTableView
 import DropDown
+import FirebaseFirestore
 
 class BuyViewController: UIViewController, TableViewCellDelegate {
     
@@ -32,25 +33,71 @@ class BuyViewController: UIViewController, TableViewCellDelegate {
             if(index == 0){ // 게시글 삭제
                 self.alertWithNoViewController(title: "게시글 삭제", message: "게시글을 삭제하시겠습니까?", completion: {(response) in
                     if(response == "OK"){
-                        print("선택한 셀 \(cell.indexPath!)")
-                        guard let postId = contents[cell.indexPath![1]].postid else {
-                            print("cant not find postid")
-                            return
+
+                    guard let postId = contents[cell.indexPath![1]].postid else {
+                        print("cant not find postid")
+                        return
+                    }
+
+
+                    checkPostDelete(postId: postId, completed: { (response) in
+                        if(response == "OK") { //삭제 할 수 있을 때
+                            print("선택한 셀 \(cell.indexPath!)")
+                            //post 삭제
+                            PostService.shared.deletePost(postId: postId)
+                            contents.remove(at: cell.indexPath![1])
+                            DispatchQueue.main.async {
+                                buyTableView.reloadData()
+                            }
+                            ChatListViewController().deleteChatRoom(postId: postId)
+                            self.alertViewController(title: "삭제 완료", message: "게시글을 삭제하였습니다", completion: { (response) in})
                         }
+                    })
                         
-                        PostService.shared.deletePost(postId: postId)
-                        contents.remove(at: cell.indexPath![1])
-                        DispatchQueue.main.async {
-                            buyTableView.reloadData()
-                        }
-                        ChatListViewController().deleteChatRoom(postId: postId)
-                        
-               
                     }
                 })
             }
         }
+            
     }
+        
+    func checkPostDelete(postId: Int, completed: @escaping (String)-> (Void)) {
+            let document = Firestore.firestore().collection("Chats").document("\(postId)")
+            document.getDocument { (document, error) in
+                if let document = document, document.exists {
+
+                    guard let users = document.data()!["users"] as? [String] else {
+                        print("no users string array in database")
+                        return
+                    }
+
+                    if(users.count == 1){ //유저가 한명만 남았을 때(방장일때 밖에 없음) 방 삭제
+                        print("user count is 1")
+                        //채팅방 삭제
+                        ChatListViewController().deleteChatRoom(postId: postId)
+
+                        //사람 chatList에서 나가기
+                        ChatService.shared.quitChatList(postId: postId)
+
+                        //게시글 삭제
+                        PostService.shared.deletePost(postId: postId)
+                        completed("OK")
+                    }else { // 아직 유저 여러명일때
+                        // 글쓴이인경우 == users[0]
+                        guard let userEamil = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else { return }
+                        if(users[0] == userEamil){
+                            self.alertViewController(title: "글 삭제 실패", message: "채팅방에 다른 누군가가 있는경우 글을 삭제할 수 없습니다.", completion: {(response) in
+                            })
+                            completed("NOT OK")
+                        }
+                        completed("NOT OK")
+                    }
+
+                } else {
+                    print("Document does not exist")
+                }
+            }
+        }
     
     
     var itemBoard = [Board]()
@@ -117,10 +164,8 @@ class BuyViewController: UIViewController, TableViewCellDelegate {
     }()
     
     @objc func didTapFilteringButton(){
-        print("didTapFilteringButton")
-        
-        let filteringVC = UIStoryboard.init(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "searchFilter")
-        //filteringVC.modalPresentationStyle = .fullScreen
+        let filteringVC = UIStoryboard.init(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "searchFilter") as! SearchFilteringViewController
+        filteringVC.from = "buy"
         filteringVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(filteringVC, animated: true)
 

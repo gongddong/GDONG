@@ -49,7 +49,7 @@ class EditProfileViewController: UIViewController, CLLocationManagerDelegate {
         if(!image.isEmpty){ // 유저 이미지도 같이 업데이트 되었다면
             //post user setting image
             print("image도 같이 업데이트")
-            API.shared.updateWithUserImage(userImage: image, change_img: "true", nickName: nickname, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
+            UserService.shared.updateWithUserImage(userImage: image, change_img: "true", nickName: nickname, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
                if(users.email != ""){
                    self.alertDone(title: "수정 완료", message: "프로필이 수정 되었습니다",  completionHandler: { response in
                         if(response == "OK"){
@@ -61,7 +61,7 @@ class EditProfileViewController: UIViewController, CLLocationManagerDelegate {
             
         } else {  // 이름과 위치 정보만 업데이트시
             print("image x이 업데이트")
-            API.shared.updateUser(nickName: nickname, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
+            UserService.shared.updateUser(nickName: nickname, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
                 if(users.email != ""){
                     self.alertDone(title: "수정 완료", message: "프로필이 수정 되었습니다",  completionHandler: { response in
                         if(response == "OK"){
@@ -109,10 +109,11 @@ class EditProfileViewController: UIViewController, CLLocationManagerDelegate {
     
     func infoLoad(){
         self.userImage.circle()
-        API.shared.getUserInfo(completion: { (user) in
+        UserService.shared.getUserInfo(completion: { (user) in
             self.userInfo = user
             if(user.profileImageUrl != ""){
                 print("db에 있는 유저 이미지 불러오기")
+                print(user.profileImageUrl)
                 let urlString = Config.baseUrl + "/static/\(user.profileImageUrl)"
                     
                     if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
@@ -219,7 +220,7 @@ class EditProfileViewController: UIViewController, CLLocationManagerDelegate {
                     self.present(alertVC, animated: true, completion: nil)
 
                 }else{
-                    API.shared.checkNickName(nickName: userInput, completion: { (string) in
+                    UserService.shared.checkNickName(nickName: userInput, completion: { (string) in
                         if(string == "false"){
                             label.text = "이미 같은 이름을 가진 사용자가 있습니다"
                             label.isHidden = false

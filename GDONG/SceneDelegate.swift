@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            if(API.shared.checkAutoLogin() == true){ // 앱에 저장된 정보가 있으면
+            if(LoginService.shared.checkAutoLogin() == true){ // 앱에 저장된 정보가 있으면
                 print("checkAutoLogin did")
             }else {
                 print("access token nil")

@@ -21,7 +21,7 @@ class FolloViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("dataFrom :\(dataFrom)")
-        API.shared.getUserInfo(completion: { [self] (response) in
+        UserService.shared.getUserInfo(completion: { [self] (response) in
             
             self.userFollowList = response.following
             self.userFollowingList = response.followers
@@ -93,7 +93,7 @@ extension FolloViewController: UITableViewDelegate, UITableViewDataSource, Follo
                 self.userList.remove(at: indexPath!.row)
                 //나의 친구 리스트에서도 삭제
                 //unfollow
-                API.shared.userUnfollow(nickName: self.userList[indexPath!.row])
+                UserService.shared.userUnfollow(nickName: self.userList[indexPath!.row])
                 self.follotableView.reloadData()
                 //self.follotableView.reloadRows(at: [indexPath!], with: .bottom)
             }

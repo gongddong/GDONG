@@ -139,7 +139,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
             print("User Name : \(fullName)")
             print("authorizationController")
             UserDefaults.standard.setValue(userIdentifier, forKey: UserDefaultKey.appleIdentifier)
-            API.shared.oAuth(from: "apple", access_token: "identifyToken is \(tokeStr) /// authorizationCode is \(codeStr)", name: "\(fullName)")
+            LoginService.shared.oAuth(from: "apple", access_token: tokeStr, name: "\(fullName)")
 //            self.autoLogin(UN: fullName.givenName! + fullName.familyName!, UE: email, FROM: "apple")
 
         default:
@@ -187,7 +187,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 //let refreshToken = user.authentication.refreshToken
         { //send to server
                 
-                API.shared.oAuth(from: "google", access_token: accessToken, name: userName)
+                LoginService.shared.oAuth(from: "google", access_token: accessToken, name: userName)
                 
             } else {
                 print("Error : User Data Not Found")
@@ -239,7 +239,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerDelegate, 
                 _ = user
                 print("kakao login")
                 guard let userName = user?.kakaoAccount?.profile?.nickname else { return }
-                API.shared.oAuth(from: "kakao", access_token: accessToken, name: userName)
+                LoginService.shared.oAuth(from: "kakao", access_token: accessToken, name: userName)
 
                 
             }

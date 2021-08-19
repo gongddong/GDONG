@@ -15,6 +15,7 @@ enum ItemCategory: String, CaseIterable {
     case 화장품
     case 음반
     case 해외배송
+    case 기타
 }
 
 class CategoryTableViewController: UITableViewController {

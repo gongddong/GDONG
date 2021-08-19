@@ -11,17 +11,21 @@ import CoreLocation
 
 
 class PostService {
+    
     static var shared = PostService()
 
+    var email: String
+    var jwtToken: String
+    
+    init(){
+        email = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail)!
+        jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken)!
+    }
     
     func deletePost(postId: Int){
-        
-        guard let authorEmail = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else { return }
-        guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else { return }
-        
-        
+
         let headers: HTTPHeaders = [
-            "Set-Cookie" : "email=\(authorEmail); token=\(jwtToken)"
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
         ]
         
         let parameter:Parameters = ["postid" : postId]
@@ -38,116 +42,119 @@ class PostService {
     }
     
     func uploadPost(title: String, content: String, link: String, needPeople: Int, price: Int, category: String, images: [Data], profileImg: String, location: Location, sellMode: Bool, completionHandler: @escaping (Board) -> Void){
-        let url = Config.baseUrl + "/post/upload"
-        
-        guard let author =  UserDefaults.standard.string(forKey: UserDefaultKey.userNickName) else { return }
-        guard let authorEmail = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else { return }
-        guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else { return }
-        
-        
-        let headers: HTTPHeaders = [
-            "Content-type": "multipart/form-data"
+            let url = Config.baseUrl + "/post/upload"
             
-        ]
-
-        let parameter:Parameters = ["author" : author,//
-                         "email" : authorEmail,//
-                         "title" : title,//
-                         "content": content,//
-                         "link" : link, //
-                         "needPeople" : needPeople, //
-                         "price" : price, 
-                         "category": category,
-                         "images": images,
-                         "profileImg" : "1234test",
-                         "location": location,
-                         "sellMode" : sellMode
-        ]
+            guard let author =  UserDefaults.standard.string(forKey: UserDefaultKey.userNickName) else { return }
+            //guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else { return }
             
+            
+            let headers: HTTPHeaders = [
+                "Content-type": "multipart/form-data",
+                "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+            ]
 
-        
-        AF.upload(multipartFormData: { multipartFormData in
-            print("[API] /post/upload")
+            let parameter:Parameters = ["author" : author,//
+                             "email" : email,//
+                             "title" : title,//
+                             "content": content,//
+                             "link" : link, //
+                             "needPeople" : needPeople, //
+                             "price" : price,
+                             "category": category,
+                             "images": images,
+                             "profileImg" : "1234test",
+                             "location": location,
+                             "sellMode" : sellMode
+            ]
+                
 
-        for imageData in images {
-            var fileName = "\(imageData).jpg"
-            fileName = fileName.replacingOccurrences(of: " ", with: "_") 
-            print(fileName)
-            multipartFormData.append(imageData, withName: "images", fileName: fileName, mimeType: "image/jpg")
-        }
-            for (key, value) in parameter {
-                if let temp = value as? Int {
-                    multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
-                    print(temp)
+            
+            AF.upload(multipartFormData: { multipartFormData in
+                print("[API] /post/upload")
+
+            for imageData in images {
+                var fileName = "\(imageData).jpg"
+                fileName = fileName.replacingOccurrences(of: " ", with: "_")
+                print(fileName)
+                multipartFormData.append(imageData, withName: "images", fileName: fileName, mimeType: "image/jpg")
+            }
+                for (key, value) in parameter {
+                    if let temp = value as? Int {
+                        multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
+                        print(temp)
+                    }
+
+                    if let temp = value as? String {
+                        multipartFormData.append(temp.data(using: .utf8)!, withName: key)
+                        print(temp)
+                   }
+                    if let temp = value as? Bool {
+                        multipartFormData.append(Bool(temp).description.data(using: .utf8)!, withName: key)
+                        print(temp)
+                   }
+
+    //                if let temp = value as? NSArray { // tags
+    //                    temp.forEach({ element in
+    //                        let keyObj = key + "[]"
+    //                        if let string = element as? String {
+    //                            multipartFormData.append(string.data(using: .utf8)!, withName: keyObj)
+    //                        } else
+    //                            if let num = element as? Int {
+    //                                let value = "\(num)"
+    //                                multipartFormData.append(value.data(using: .utf8)!, withName: keyObj)
+    //                        }
+    //                    })
+    //                    print(temp)
+    //                }
+                    if value is Location {
+                        do {
+                            let jsonData = try JSONEncoder().encode(location)
+                            let jsonString = String(data: jsonData, encoding: .utf8)!
+                            print("location json \(jsonString)")
+                            multipartFormData.append("\(jsonData)".data(using: .utf8)!, withName: key)
+
+                        }catch {
+                            print("jsonError \(error.localizedDescription)")
+                        }
+                   }
+
+
                 }
 
-                if let temp = value as? String {
-                    multipartFormData.append(temp.data(using: .utf8)!, withName: key)
-                    print(temp)
-               }
-                if let temp = value as? Bool {
-                    multipartFormData.append(Bool(temp).description.data(using: .utf8)!, withName: key)
-                    print(temp)
-               }
 
-//                if let temp = value as? NSArray { // tags
-//                    temp.forEach({ element in
-//                        let keyObj = key + "[]"
-//                        if let string = element as? String {
-//                            multipartFormData.append(string.data(using: .utf8)!, withName: keyObj)
-//                        } else
-//                            if let num = element as? Int {
-//                                let value = "\(num)"
-//                                multipartFormData.append(value.data(using: .utf8)!, withName: keyObj)
-//                        }
-//                    })
-//                    print(temp)
-//                }
+            }, to: url, usingThreshold: UInt64.init(), method: .post, headers: headers).validate().responseJSON { (response) in
+                switch response.result {
 
-                if value is Location {
+                case .success(let obj):
                     do {
-                        let jsonData = try JSONEncoder().encode(location)
-                        let jsonString = String(data: jsonData, encoding: .utf8)!
-                        print("location json \(jsonString)")
-                        multipartFormData.append("\(jsonData)".data(using: .utf8)!, withName: key)
+                        let response = obj as! NSDictionary
+                        print("PostService : \(response["post"])")
+                        guard let post = response["post"] as? Dictionary<String, Any> else {
+                            print("post data can't get")
+                            return }
+                        print("post in PostService : \(post)")
+                        let dataJSON = try JSONSerialization.data(withJSONObject: post, options: .prettyPrinted)
+                        let postData = try JSONDecoder().decode(Board.self, from: dataJSON)
+                        completionHandler(postData)
 
                     }catch {
-                        print("jsonError \(error.localizedDescription)")
+                        print("error: ", error)
                     }
-               }
-
-
-            }
-
-
-        }, to: url, usingThreshold: UInt64.init(), method: .post, headers: headers).validate().responseJSON { (response) in
-            switch response.result {
-
-            case .success(let obj):
-                do {
-                    let response = obj as! NSDictionary
-                    print("PostService : \(response["post"])")
-                    guard let post = response["post"] as? Dictionary<String, Any> else {
-                        print("post data can't get")
-                        return }
-                    print("post in PostService : \(post)")
-                    let dataJSON = try JSONSerialization.data(withJSONObject: post, options: .prettyPrinted)
-                    let postData = try JSONDecoder().decode(Board.self, from: dataJSON)
-                    completionHandler(postData)
-
-                }catch {
-                    print("error: ", error)
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
         }
-    }
     
     func getAllPosts(completion: @escaping (([Board]?) -> Void)){
+        
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        
         let parameter:Parameters = ["start" : -1,
                                     "num" : 10] // start : -1 처음부터 ~ 5개
-        AF.request(Config.baseUrl + "/post/recent", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString)).validate().responseJSON(completionHandler: { (response) in
+        AF.request(Config.baseUrl + "/post/recent", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString), headers: headers).validate().responseJSON(completionHandler: { (response) in
 
             print("[API] post/recent")
             switch response.result {
@@ -184,8 +191,12 @@ class PostService {
     
     func clickHeart(postId: Int){
         
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        
         let parameter: Parameters = ["postid": postId]
-        AF.request(Config.baseUrl + "/post/like", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString)).validate().responseJSON(completionHandler: {
+        AF.request(Config.baseUrl + "/post/like", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString), headers: headers).validate().responseJSON(completionHandler: {
             (response) in
                 print(response)
                 print("[API] /post/like 좋아요 누르기")
@@ -219,11 +230,16 @@ class PostService {
     }
     
     func getSearchPost(start: Int, searWord: String, num: Int, completion: @escaping (([Board]) -> Void)){
+        
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        
         let parameter: Parameters = ["start" : start,
                                     "word" : searWord,
                                     "num" : num]
         
-        AF.request(Config.baseUrl + "/post/search", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString)).validate().responseJSON(completionHandler: {
+        AF.request(Config.baseUrl + "/post/search", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString), headers: headers).validate().responseJSON(completionHandler: {
             (response) in
 
                 print("[API] /post/search \(searWord)에 해당하는 글 가져오기")
@@ -392,6 +408,88 @@ class PostService {
     })
         
         
+    }
+    
+    func getauthorPost(start: Int, author: String, num: Int, completion: @escaping (([Board]?) -> Void)){
+        let params: Parameters = ["start" : start,
+                                "author": author,
+                                  "num": num]
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        AF.request(Config.baseUrl + "/post/author", method: .get, parameters: params, encoding: URLEncoding(destination: .queryString), headers: headers).validate().responseJSON { (response) in
+                print(response)
+                print("[API] /post/author \(author) 유저 게시글 가져오기")
+                switch response.result {
+                    case .success(let obj):
+                        do {
+                           let responses = obj as! NSDictionary
+                            print(responses)
+                           let posts = responses["posts"] as Any
+                           let dataJSON = try JSONSerialization.data(withJSONObject: posts, options: .prettyPrinted)
+
+                           let authorBoard = try JSONDecoder().decode([Board]?.self, from: dataJSON)
+                            print("authorBoard \(authorBoard!)")
+                            completion(authorBoard)
+                        } catch let DecodingError.dataCorrupted(context) {
+                            print(context)
+                        } catch let DecodingError.keyNotFound(key, context) {
+                            print("Key '\(key)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.valueNotFound(value, context) {
+                            print("Value '\(value)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.typeMismatch(type, context)  {
+                            print("Type '\(type)' mismatch:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch {
+                            print("error: ", error)
+                        }
+                    case .failure(let e):
+                        print(e.localizedDescription)
+                    }
+            }
+        }
+    
+    
+    func getMyHeartPost(nickName: String,  completion: @escaping (([Board]?) -> Void)){
+        
+        let params: Parameters = ["nickname" : nickName]
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        AF.request(Config.baseUrl + "/post/likelist", method: .get, parameters: params, encoding: URLEncoding(destination: .queryString), headers: headers).validate().responseJSON { (response) in
+                print(response)
+                print("[API] /post/likeList \(nickName)가 좋아요 한 글 가져오기")
+                switch response.result {
+                    case .success(let obj):
+                        do {
+                           let responses = obj as! NSDictionary
+                            //print(responses)
+                            let posts = responses["posts"] as Any
+                           let dataJSON = try JSONSerialization.data(withJSONObject: posts, options: .prettyPrinted)
+
+                           let heartBoard = try JSONDecoder().decode([Board]?.self, from: dataJSON)
+                            print("hearted post -> \(heartBoard!)")
+                            completion(heartBoard)
+                        } catch let DecodingError.dataCorrupted(context) {
+                            print(context)
+                        } catch let DecodingError.keyNotFound(key, context) {
+                            print("Key '\(key)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.valueNotFound(value, context) {
+                            print("Value '\(value)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.typeMismatch(type, context)  {
+                            print("Type '\(type)' mismatch:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch {
+                            print("error: ", error)
+                        }
+                    case .failure(let e):
+                        print(e.localizedDescription)
+                    }
+            }
     }
     
 }

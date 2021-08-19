@@ -49,7 +49,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         print("\(nickName)")
         if (nowLatitude != 0.0 && nowLongitude != 0.0){
             //post
-            API.shared.updateUser(nickName: nickName, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
+            UserService.shared.updateUser(nickName: nickName, longitude: nowLongitude, latitude: nowLatitude, completion: { (users) in
                 let userNickName = users.nickName
                 //let userLocation = users.location.coordinates
                 UserDefaults.standard.setValue(self.getLocation, forKey: UserDefaultKey.userLocation)

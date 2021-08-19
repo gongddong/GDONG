@@ -147,6 +147,13 @@ class DateUtil {
 
         return formatter.string(from: date)
     }
+    
+    static func latestMessageformatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM월 dd일 HH : mm"
+
+        return formatter.string(from: date)
+    }
 }
 
 

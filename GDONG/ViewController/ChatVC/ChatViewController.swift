@@ -238,7 +238,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     private var docReference: DocumentReference? //현재 document
     var chatRoom: ChatRoom?
     var messages: [Message] = []
-    var lastestMessage = Message(id: "", content: "", created: Date(), senderID: "", senderName: "")
+   
     private var messageListener: ListenerRegistration?
     private var latestMessageObserver: NSObjectProtocol?
     
@@ -248,7 +248,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
 //    var user2UID: String? = "jouureee@gmail.com"
     
     override func viewWillAppear(_ animated: Bool) {
-        API.shared.getUserInfo(completion: { (response) in
+        UserService.shared.getUserInfo(completion: { (response) in
             self.currentUser = response
             print("currentUser \(response)")
             self.messagesCollectionView.reloadData()
@@ -376,7 +376,6 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     private func insertNewMessage(_ message: Message) {
     //add the message to the messages array and reload it
         messages.append(message)
-        lastestMessage = message
         messagesCollectionView.reloadData()
         DispatchQueue.main.async {
             self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
@@ -390,6 +389,7 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     
     //채팅 방 내 사람들에게 push noti 보내기
     private func postPushNotification(messageContent: String){
+        print("postPushNotification called")
         var nickNameList = [String]()
         
         guard let postId = Int((chatRoom?.chatId)!) else {
@@ -399,8 +399,9 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
         
         ChatService.shared.getChatList(postId: postId, completionHandler: { (response) in
             for i in response {
+                print("here")
                 nickNameList.append(i.nickName)
-                API.shared.pushNotification(nickname: i.nickName, message: messageContent)
+                PushService.shared.pushNotification(nickname: i.nickName, message: messageContent)
             }
         })
         
@@ -498,15 +499,15 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     
         //If it's current user show current user photo.
 
-        API.shared.getUserInfo(completion: { (response) in
+        UserService.shared.getUserInfo(completion: { (response) in
             self.currentUser = response
-            print("currentUser \(response)")
+            //print("currentUser \(response)")
             let urlString = Config.baseUrl + "/static/\(self.currentUser.profileImageUrl)"
            
-            print(urlString)
-            print(self.currentUser.nickName)
+            //print(urlString)
+            //print(self.currentUser.nickName)
             if(message.sender.senderId == self.currentUser.email){
-                print("it's me")
+                //print("it's me")
                 SDWebImageManager.shared.loadImage(with: URL(string: urlString), options: .highPriority, progress: nil) { (image, data, error, cacheType, isFinished, imageUrl) in
                     avatarView.image = image
                     avatarView.isHidden = self.isNextMessageSameSender(at: indexPath)

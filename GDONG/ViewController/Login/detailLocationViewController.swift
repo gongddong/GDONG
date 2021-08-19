@@ -34,7 +34,7 @@ class detailLocationViewController: UIViewController {
     
     func searchWithJuso(){
         if !searchKeyword.isEmpty {
-            API.shared.findAddress(keyword: searchKeyword){ [weak self]
+            UserService.shared.findAddress(keyword: searchKeyword){ [weak self]
                 (jusoResponse) in
                 guard let self = self else { return }
                 if(!jusoResponse.results.juso.isEmpty){

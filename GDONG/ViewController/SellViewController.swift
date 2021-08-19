@@ -112,9 +112,8 @@ class SellViewController: UIViewController {
     
     
     @objc func didTapFilteringButton(){
-        print("didTapFilteringButton")
-        let filteringVC = UIStoryboard.init(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "searchFilter")
-        //filteringVC.modalPresentationStyle = .fullScreen
+        let filteringVC = UIStoryboard.init(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "searchFilter") as! SearchFilteringViewController
+        filteringVC.from = "sell"
         filteringVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(filteringVC, animated: true)
 

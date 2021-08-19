@@ -53,7 +53,7 @@ class DetailNoteViewController: UIViewController, UIGestureRecognizerDelegate {
         bottomView.addSubview(heartButton)
         
         //유저 likes 배열에 있는 (좋아요 한 글)이면
-        API.shared.getUserInfo(completion: { [self] (response) in
+        UserService.shared.getUserInfo(completion: { [self] (response) in
             for i in response.likes {
                 if i == oneBoard!.postid {
                     print("유저가 좋아요 한 글")
