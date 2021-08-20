@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0CF2138C1B09291073ACA2DA /* Pods_GDONG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5CB9861EE62390BC891B506 /* Pods_GDONG.framework */; };
-		409D0E3526B5A64700D67626 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		409D0E3526B5A64700D67626 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		8E1DA7B8268AF13B0049E658 /* GetUserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7B7268AF13B0049E658 /* GetUserProfileViewController.swift */; };
 		8E1DA7BA268B69F80049E658 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7B9268B69F80049E658 /* Chat.swift */; };
 		8E1DA7BC268B6A020049E658 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA7BB268B6A020049E658 /* ChatUser.swift */; };
@@ -74,7 +74,7 @@
 		8E9A61D426BE65E0007AD6EB /* PopularPeopleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E9A61D026BE65E0007AD6EB /* PopularPeopleCell.xib */; };
 		8E9A61D526BE65E0007AD6EB /* PopularBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9A61D126BE65E0007AD6EB /* PopularBoardCell.swift */; };
 		8E9A61D926BE7BD0007AD6EB /* BuySellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E9A61D726BE7BCF007AD6EB /* BuySellTableViewCell.xib */; };
-		8EC87291266616DF00C1B7C5 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		8EC87291266616DF00C1B7C5 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		8ED15E9F2696D816002943C9 /* InputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8ED15E9D2696D815002943C9 /* InputTableViewCell.xib */; };
 		8ED15EA02696D816002943C9 /* InputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED15E9E2696D815002943C9 /* InputTableViewCell.swift */; };
 		8ED15EA32696E7A9002943C9 /* UserInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ED15EA22696E7A9002943C9 /* UserInfo.storyboard */; };
@@ -128,6 +128,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		408A6D8C26C6B6EE0098F7A1 /* GDONGRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GDONGRelease.entitlements; sourceTree = "<group>"; };
 		8E1D605526B92B9600DF53FE /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		8E1D605726B92B9600DF53FE /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		8E1DA7B7268AF13B0049E658 /* GetUserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserProfileViewController.swift; sourceTree = "<group>"; };
@@ -193,10 +194,10 @@
 		8E772BC4267C8DC00034C2BF /* ChatListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListModel.swift; sourceTree = "<group>"; };
 		8E772BC6267C8FFB0034C2BF /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		8E87F2712680FA6B009BFDDB /* FolloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolloViewController.swift; sourceTree = "<group>"; };
-		8E9A61CE26BE65E0007AD6EB /* PopularBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopularBoardCell.xib; path = ../../../../../../../.Trash/PopularBoardCell.xib; sourceTree = "<group>"; };
-		8E9A61CF26BE65E0007AD6EB /* PopularPeopleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularPeopleCell.swift; path = ../../../../../../../.Trash/PopularPeopleCell.swift; sourceTree = "<group>"; };
-		8E9A61D026BE65E0007AD6EB /* PopularPeopleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopularPeopleCell.xib; path = ../../../../../../../.Trash/PopularPeopleCell.xib; sourceTree = "<group>"; };
-		8E9A61D126BE65E0007AD6EB /* PopularBoardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularBoardCell.swift; path = ../../../../../../../.Trash/PopularBoardCell.swift; sourceTree = "<group>"; };
+		8E9A61CE26BE65E0007AD6EB /* PopularBoardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopularBoardCell.xib; sourceTree = "<group>"; };
+		8E9A61CF26BE65E0007AD6EB /* PopularPeopleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularPeopleCell.swift; sourceTree = "<group>"; };
+		8E9A61D026BE65E0007AD6EB /* PopularPeopleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopularPeopleCell.xib; sourceTree = "<group>"; };
+		8E9A61D126BE65E0007AD6EB /* PopularBoardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularBoardCell.swift; sourceTree = "<group>"; };
 		8E9A61D726BE7BCF007AD6EB /* BuySellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuySellTableViewCell.xib; sourceTree = "<group>"; };
 		8ED15E9D2696D815002943C9 /* InputTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputTableViewCell.xib; sourceTree = "<group>"; };
 		8ED15E9E2696D815002943C9 /* InputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputTableViewCell.swift; sourceTree = "<group>"; };
@@ -292,6 +293,7 @@
 		8E42FEEF261D958100763B61 /* GDONG */ = {
 			isa = PBXGroup;
 			children = (
+				408A6D8C26C6B6EE0098F7A1 /* GDONGRelease.entitlements */,
 				8E70C1CA2691F425006F1D2C /* Services */,
 				8EF8F7AC268595D6003ADFA9 /* GoogleService-Info.plist */,
 				8E772B7A267C8CA40034C2BF /* Cell */,
@@ -734,7 +736,7 @@
 				8E772B90267C8CB30034C2BF /* ProfileViewController.swift in Sources */,
 				8EF8F7A6268468C5003ADFA9 /* MessageModel.swift in Sources */,
 				8E42FEF1261D958100763B61 /* AppDelegate.swift in Sources */,
-				409D0E3526B5A64700D67626 /* BuildFile in Sources */,
+				409D0E3526B5A64700D67626 /* (null) in Sources */,
 				8E772B89267C8CA40034C2BF /* TableViewCell.swift in Sources */,
 				8E772BC7267C8FFB0034C2BF /* KeychainItem.swift in Sources */,
 				8E9A61D526BE65E0007AD6EB /* PopularBoardCell.swift in Sources */,
@@ -756,7 +758,7 @@
 				8EF8F2052694B73B0034BD99 /* ContentTableViewCell.swift in Sources */,
 				8E772BC5267C8DC00034C2BF /* ChatListModel.swift in Sources */,
 				8EDD9A1A2674B046003AFE65 /* UserDefaultKey.swift in Sources */,
-				8EC87291266616DF00C1B7C5 /* BuildFile in Sources */,
+				8EC87291266616DF00C1B7C5 /* (null) in Sources */,
 				8E772B60267C8C6D0034C2BF /* Extension.swift in Sources */,
 				8E772B77267C8C750034C2BF /* CategoryTableViewController.swift in Sources */,
 				8E61FDD926301739008CCB8A /* Model.swift in Sources */,
@@ -922,7 +924,7 @@
 				CODE_SIGN_ENTITLEMENTS = GDONG/GDONG.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.2;
-				DEVELOPMENT_TEAM = FJ57DUH592;
+				DEVELOPMENT_TEAM = PGZXZRM7JY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
@@ -987,11 +989,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = GDONG/GDONG.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GDONG/GDONGRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.2;
-				DEVELOPMENT_TEAM = FJ57DUH592;
+				DEVELOPMENT_TEAM = PGZXZRM7JY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",

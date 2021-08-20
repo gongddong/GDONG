@@ -563,6 +563,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7eA-eo-2fm"/>
+                    <connections>
+                        <outlet property="boardTableView" destination="xd9-vk-9Tv" id="0xe-pg-jBt"/>
+                        <outlet property="followBt" destination="AGL-vr-7Ph" id="JLq-Ir-fLA"/>
+                        <outlet property="isSellerBt" destination="kQc-QF-RP6" id="tM9-Nh-bdq"/>
+                        <outlet property="userLocation" destination="a8K-If-d55" id="XAY-3g-6QU"/>
+                        <outlet property="userimage" destination="8dV-3u-Tm0" id="veA-m3-kst"/>
+                        <outlet property="username" destination="ifR-E5-Vyl" id="VNT-zE-09Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sCt-ph-vya" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

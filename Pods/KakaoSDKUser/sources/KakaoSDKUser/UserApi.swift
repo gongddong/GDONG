@@ -315,6 +315,50 @@ final public class UserApi {
         }
     }
     
+    /// 사용자가 동의한 동의 항목의 상세 정보 목록을 조회합니다.
+    /// [내 애플리케이션] > [카카오 로그인] > [동의 항목]에 설정된 동의 항목의 목록과 사용자의 동의 여부를 반환합니다.
+    /// - parameters:
+    ///   - scopes 추가할 동의 항목 ID 목록 (옵셔널)
+    public func scopes(scopes:[String]? = nil, completion:@escaping (ScopeInfo?, Error?) -> Void) {
+        AUTH.responseData(.get,
+                          Urls.compose(path:Paths.userScopes),
+                          parameters: ["scopes":scopes?.toJsonString()].filterNil(),
+                          apiType: .KApi) { (response, data, error) in
+                            if let error = error {
+                                completion(nil, error)
+                                return
+                            }
+                            
+                            if let data = data {
+                                completion(try? SdkJSONDecoder.custom.decode(ScopeInfo.self, from: data), nil)
+                                return
+                            }
+                            
+                            completion(nil, SdkError())
+        }
+    }
     
+    /// 사용자의 특정 동의 항목에 대한 동의를 철회(Revoke)합니다.
+    /// 동의 내역 확인하기 API를 통해 조회한 동의 항목 정보 중 동의 철회 가능 여부(revocable) 값이 true인 동의 항목만 철회 가능합니다.
+    /// - parameters:
+    ///   - scopes 추가할 동의 항목 ID 목록
+    public func revokeScopes(scopes:[String], completion:@escaping (ScopeInfo?, Error?) -> Void) {
+        AUTH.responseData(.post,
+                          Urls.compose(path:Paths.userRevokeScopes),
+                          parameters: ["scopes":scopes.toJsonString()].filterNil(),
+                          apiType: .KApi) { (response, data, error) in
+                            if let error = error {
+                                completion(nil, error)
+                                return
+                            }
+                            
+                            if let data = data {
+                                completion(try? SdkJSONDecoder.custom.decode(ScopeInfo.self, from: data), nil)
+                                return
+                            }
+                            
+                            completion(nil, SdkError())
+        }
+    }
 }
 

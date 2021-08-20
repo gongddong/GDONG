@@ -10,6 +10,51 @@ import Alamofire
 
 class API {
     static var shared = API()
+    
+    func getOtherUserInfo(nickName: String, completion: @escaping ((Users) -> (Void))){
+        
+        guard let email = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else {
+            print("getUserInfo email no")
+            return
+        }
+        guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else {
+            print("getUserInfo jwtToken no")
+            return
+        }
+        
+        let headers: HTTPHeaders = [
+            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        
+        let parameters: Parameters = [
+            "nickname" : nickName,
+        ]
+        
+        AF.request(Config.baseUrl + "/user/info", method: .get, parameters: parameters, headers: headers).validate(statusCode: 200...500 ).responseJSON {
+            (response) in
+            print("[API] /user/info 유저 정보 불러오기")
+            switch response.result {
+                case .success(let obj):
+                    do {
+                        let responses = obj as! NSDictionary
+                        guard let user = responses["user"] as? Dictionary<String, Any> else { return }
+                        
+                        let dataJSON = try JSONSerialization.data(withJSONObject: user, options: .prettyPrinted)
+
+                        let UserData = try JSONDecoder().decode(Users.self, from: dataJSON)
+                        print(UserData)
+                    } catch {
+                        print("error: ", error)
+                    }
+                    
+                    
+                case .failure(let e):
+                    print(e.errorDescription as Any)
+            }
+        }
+    }
+    
+    
 
     func getUserInfo(completion: @escaping ((Users) -> Void) ){
         
