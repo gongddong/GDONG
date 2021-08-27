@@ -172,6 +172,29 @@ struct Users: Codable {
         case likes
 
     }
+    
+//    init(__v: Int, _id: String, email: String, name: String, authProvider: String, isSeller: Bool, chatRoomList: [Int], nickName: String, profileImageUrl: String, followers: [String], following: [String], createdAt: String, updatedAt: String, deviceToken: String, location: Location, posts:[Int], likes: [Int] ) {
+//
+//        self.__v = __v
+//        self._id = _id
+//        self.email = email
+//        self.name = name
+//        self.authProvider = authProvider
+//        self.isSeller = isSeller
+//        self.chatRoomList = chatRoomList
+//        self.nickName = nickName
+//        self.profileImageUrl = profileImageUrl
+//        self.followers = followers
+//        self.following = following
+//        self.createdAt = createdAt
+//        self.updatedAt = updatedAt
+//        self.deviceToken = deviceToken
+//        self.location = location
+//        self.posts = posts
+//        self.likes = likes
+//
+//    }
+    
 }
 
 struct Location: Codable {

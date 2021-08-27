@@ -12,6 +12,120 @@ import CoreLocation
 
 class PostService {
     static var shared = PostService()
+    
+    
+    func getOtherPeopleLikePosts(completion: @escaping (([Board]?) -> Void)){
+        
+        guard let email = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else {
+                    print("getUserInfo email no")
+                    return
+        }
+        guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else {
+                    print("getUserInfo jwtToken no")
+                    return
+        }
+        
+        let headers: HTTPHeaders = [
+                    "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        ]
+        
+        let parameter:Parameters = ["start" : -1,
+                                    "num" : 7] // start : -1 처음부터 ~ 5개
+                                    
+        
+        AF.request(Config.baseUrl + "/post/favorite", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString),headers: headers).validate().responseJSON(completionHandler: { (response) in
+
+            print("[API] post/favorite")
+            switch response.result {
+                case .success(let obj):
+                    do {
+                       let responses = obj as! NSDictionary
+               
+                       guard let posts = responses["posts"] as? [Dictionary<String, Any>] else { return }
+                        
+                        let dataJSON = try JSONSerialization.data(withJSONObject: posts, options: .prettyPrinted)
+                        let postData = try JSONDecoder().decode([Board]?.self, from: dataJSON)
+                        completion(postData)
+                    
+                     } catch let DecodingError.dataCorrupted(context) {
+                         print(context)
+                     } catch let DecodingError.keyNotFound(key, context) {
+                         print("Key '\(key)' not found:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch let DecodingError.valueNotFound(value, context) {
+                         print("Value '\(value)' not found:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch let DecodingError.typeMismatch(type, context)  {
+                         print("Type '\(type)' mismatch:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch {
+                         print("error: ", error)
+                     }
+                 case .failure(let e):
+                     print(e.localizedDescription)
+                 }
+        })
+        
+    }
+    
+    
+    
+    func getRecommendSellPosts(completion: @escaping (([Board]?) -> Void)){
+        
+        //        guard let email = UserDefaults.standard.string(forKey: UserDefaultKey.userEmail) else {
+        //            print("getUserInfo email no")
+        //            return
+        //        }
+        //        guard let jwtToken = UserDefaults.standard.string(forKey: UserDefaultKey.jwtToken) else {
+        //            print("getUserInfo jwtToken no")
+        //            return
+        //        }
+        //
+        //        let headers: HTTPHeaders = [
+        //            "Set-Cookie" : "email=\(email); token=\(jwtToken)"
+        //        ]
+        
+        
+        let parameter:Parameters = ["start" : -1,
+                                    "num" : 7] // start : -1 처음부터 ~ 5개
+                                    
+        
+        AF.request(Config.baseUrl + "/post/recommended", method: .get, parameters: parameter, encoding: URLEncoding(destination: .queryString),headers: nil).validate().responseJSON(completionHandler: { (response) in
+
+            print("[API] post/recommended")
+            switch response.result {
+                case .success(let obj):
+                    do {
+                        //print("성공")
+                        //print(response)
+                       let responses = obj as! NSDictionary
+                       
+                       guard let posts = responses["posts"] as? [Dictionary<String, Any>] else { return }
+                        
+                        let dataJSON = try JSONSerialization.data(withJSONObject: posts, options: .prettyPrinted)
+                        let postData = try JSONDecoder().decode([Board]?.self, from: dataJSON)
+                        completion(postData)
+                    
+                     } catch let DecodingError.dataCorrupted(context) {
+                         print(context)
+                     } catch let DecodingError.keyNotFound(key, context) {
+                         print("Key '\(key)' not found:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch let DecodingError.valueNotFound(value, context) {
+                         print("Value '\(value)' not found:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch let DecodingError.typeMismatch(type, context)  {
+                         print("Type '\(type)' mismatch:", context.debugDescription)
+                         print("codingPath:", context.codingPath)
+                     } catch {
+                         print("error: ", error)
+                     }
+                 case .failure(let e):
+                     print(e.localizedDescription)
+                 }
+        })
+        
+    }
 
     
     func deletePost(postId: Int){

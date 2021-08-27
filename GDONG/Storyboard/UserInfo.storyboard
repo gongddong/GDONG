@@ -584,7 +584,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B0M-gz-01R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2880" y="-439"/>
+            <point key="canvasLocation" x="4099" y="-372"/>
         </scene>
         <!--Follo View Controller-->
         <scene sceneID="8kx-b6-pm7">

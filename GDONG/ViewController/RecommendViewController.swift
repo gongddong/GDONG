@@ -11,13 +11,17 @@ import PagingTableView
 class RecommendViewController: UIViewController {
     
    
-    var itemBoard = [Board]()
+    var sellItemBoard = [Board]()
+    var buyItemBoard  = [Board]()
+    var otherPeopleLikeItemBoard = [Board]()
+    var recommendUser = [Users]()
+    var recommendSellUser = [Users]()
     
     
     @IBOutlet var scrollView: UIScrollView!
     
     @IBOutlet var stackview: UIStackView!
-    //@IBOutlet var contentView: UIView!
+    
     
     @IBOutlet var view1: UIView!
     @IBOutlet var view2: UIView!
@@ -46,20 +50,53 @@ class RecommendViewController: UIViewController {
         self.buyerCollectionView.reloadData()
         self.sellBoardCollectionView.reloadData()
         self.buyBoardCollectionView.reloadData()
+        self.otherpeoplelikeCollectionView.reloadData()
         
 
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        guard let index = recommendTableView.indexPathForSelectedRow else {
-//            return
-//        }
-//
-//        if let detailVC = segue.destination as? DetailNoteViewController {
-//            detailVC.oneBoard = itemBoard[index.row]
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //판매글
+        guard let sellBoardindex = sellBoardCollectionView.indexPathsForSelectedItems?.first else {
+            return
+        }
+
+        if let sellBoardDetailVC = segue.destination as? DetailNoteViewController {
+            sellBoardDetailVC.oneBoard = sellItemBoard[sellBoardindex.row]
+        }
+        
+        //구매글
+        guard let buyBoardindex = buyBoardCollectionView.indexPathsForSelectedItems?.first else {
+            return
+        }
+
+        if let buyBoardDetailVC = segue.destination as? DetailNoteViewController {
+            buyBoardDetailVC.oneBoard = buyItemBoard[buyBoardindex.row]
+        }
+        
+        //관심글
+        guard let otherBoardindex = otherpeoplelikeCollectionView.indexPathsForSelectedItems?.first else {
+            return
+        }
+
+        if let otherBoardDetailVC = segue.destination as? DetailNoteViewController {
+            otherBoardDetailVC.oneBoard = otherPeopleLikeItemBoard[otherBoardindex.row]
+        }
+        
+        //판매자
+        guard let getUserProfileViewController = segue.destination as? GetUserProfileViewController else { return }
+        if let sellerindex = sellerCollectionView.indexPathsForSelectedItems?.first {
+            getUserProfileViewController.userInfo =  recommendSellUser[sellerindex.row].nickName
+        }
+        
+        //구매자
+        guard let getUserProfileViewController = segue.destination as? GetUserProfileViewController else { return }
+        if let buyerindex = buyerCollectionView.indexPathsForSelectedItems?.first {
+            getUserProfileViewController.userInfo =  recommendUser[buyerindex.row].nickName
+        }
+        
+    }
     
     
     override func viewDidLoad() {
@@ -101,6 +138,41 @@ class RecommendViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        PostService.shared.getRecommendSellPosts(completion: { [self] (response) in
+            guard let response = response else {
+                return
+            }
+
+            //판매 글이 true인 글만 받아오기
+            self.sellItemBoard = response.filter {$0.sell == true }
+            //판매 글이 false인 글만 받아오기
+            self.buyItemBoard = response.filter {$0.sell == false }
+            
+        })
+        
+        
+        PostService.shared.getOtherPeopleLikePosts(completion: { [self] (response) in
+            guard let response = response else {
+                return
+            }
+            
+            self.otherPeopleLikeItemBoard = response
+            
+        })
+        
+        API.shared.getRecommendUserInfo( completion: { [self] (response) in
+            guard let response = response else {
+                return
+            }
+            
+            self.recommendUser = response.filter {$0.isSeller == false }
+            self.recommendSellUser = response.filter {$0.isSeller == true }
+            
+        })
+        
+        
+        
         sellerCollectionView.reloadData()
         buyerCollectionView.reloadData()
         sellBoardCollectionView.reloadData()
@@ -120,19 +192,19 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == sellerCollectionView {
-            return 5
+            return recommendSellUser.count
         }
         if collectionView == buyerCollectionView {
-            return 5
+            return recommendUser.count
         }
         if collectionView == sellBoardCollectionView {
-            return 5
+            return sellItemBoard.count
         }
         if collectionView == buyBoardCollectionView {
-            return 5
+            return buyItemBoard.count
         }
         if collectionView == otherpeoplelikeCollectionView {
-            return 5
+            return otherPeopleLikeItemBoard.count
         }
         
         return 0
@@ -143,28 +215,62 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
         
         if collectionView == sellerCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularpeoplecell", for: indexPath) as! PopularPeopleCell
+            
+            
+            guard recommendSellUser.indices.contains(indexPath.row) else { return cell }
 
-            cell.profileimageView.image = UIImage(named: "strawberry.jpg")
-            cell.peolenameLabel.text = "판매자"
+            cell.peoplenameLabel.text = recommendSellUser[indexPath.row].nickName
+        
+        
+            let indexImage =  recommendSellUser[indexPath.row].profileImageUrl
+            let urlString = Config.baseUrl + "/static/\(indexImage)"
+        
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
+                cell.profileimageView.sd_setImage(with: myURL, completed: nil)
+            }
+            
+            
 
             return cell
         }
 
         else if collectionView == buyerCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularpeoplecell", for: indexPath) as! PopularPeopleCell
+            
+            guard recommendUser.indices.contains(indexPath.row) else { return cell }
 
-            cell.profileimageView.image = UIImage(named: "perfume.jpg")
-            cell.peolenameLabel.text = "사용자"
+            cell.peoplenameLabel.text = recommendUser[indexPath.row].nickName
+        
+        
+            let indexImage =  recommendUser[indexPath.row].profileImageUrl
+            let urlString = Config.baseUrl + "/static/\(indexImage)"
+        
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
+                cell.profileimageView.sd_setImage(with: myURL, completed: nil)
+            }
 
             return cell
         }
 
         else if collectionView == sellBoardCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularboardcell", for: indexPath) as! PopularBoardCell
+            
+            
+            guard sellItemBoard.indices.contains(indexPath.row) else { return cell }
 
-            cell.boardImageView.image = UIImage(named: "bigapple.jpg")
-            cell.boardtitleLabel.text = "선착순입니다~"
-            cell.chatpeopleLabel.text = "참여인원: "+"1/4"
+            cell.boardtitleLabel.text = sellItemBoard[indexPath.row].title
+        
+        
+            cell.chatpeopleLabel.text = "참여인원: \(sellItemBoard[indexPath.row].nowPeople ?? 0)/ \(sellItemBoard[indexPath.row].needPeople ?? 0)"
+
+            let indexImage =  sellItemBoard[indexPath.row].images![0]
+            let urlString = Config.baseUrl + "/static/\(indexImage)"
+        
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
+                cell.boardImageView.sd_setImage(with: myURL, completed: nil)
+            }
+            
+            
 
           return cell
         }
@@ -172,19 +278,40 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
         else if collectionView == buyBoardCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularboardcell", for: indexPath) as! PopularBoardCell
 
-            cell.boardImageView.image = UIImage(named: "cero.jpg")
-            cell.boardtitleLabel.text = "공구해요"
-            cell.chatpeopleLabel.text = "참여인원: "+"1/4"
+            guard buyItemBoard.indices.contains(indexPath.row) else { return cell }
+
+            cell.boardtitleLabel.text = buyItemBoard[indexPath.row].title
+            
+        
+            cell.chatpeopleLabel.text = "참여인원: \(buyItemBoard[indexPath.row].nowPeople ?? 0)/ \(buyItemBoard[indexPath.row].needPeople ?? 0)"
+
+            let indexImage =  buyItemBoard[indexPath.row].images![0]
+            let urlString = Config.baseUrl + "/static/\(indexImage)"
+        
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
+                cell.boardImageView.sd_setImage(with: myURL, completed: nil)
+            }
+            
 
             return cell
         }
         
         else if collectionView == otherpeoplelikeCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularboardcell", for: indexPath) as! PopularBoardCell
+            
+            guard otherPeopleLikeItemBoard.indices.contains(indexPath.row) else { return cell }
 
-            cell.boardImageView.image = UIImage(named: "strawberry.jpg")
-            cell.boardtitleLabel.text = "관심글입니다"
-            cell.chatpeopleLabel.text = "참여인원: "+"1/10"
+            cell.boardtitleLabel.text = otherPeopleLikeItemBoard[indexPath.row].title
+            
+        
+            cell.chatpeopleLabel.text = "참여인원: \(otherPeopleLikeItemBoard[indexPath.row].nowPeople ?? 0)/ \(otherPeopleLikeItemBoard[indexPath.row].needPeople ?? 0)"
+
+            let indexImage =  otherPeopleLikeItemBoard[indexPath.row].images![0]
+            let urlString = Config.baseUrl + "/static/\(indexImage)"
+        
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let myURL = URL(string: encoded) {
+                cell.boardImageView.sd_setImage(with: myURL, completed: nil)
+            }
 
             return cell
         }
@@ -240,16 +367,7 @@ extension RecommendViewController: UICollectionViewDelegate, UICollectionViewDat
 }
 
 
-//    // 디테일뷰 넘어가는 함수
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        performSegue(withIdentifier: "detail", sender: nil)
-//
-//    }
-//
-//
-//}
-//
-//
+
 
 
 
